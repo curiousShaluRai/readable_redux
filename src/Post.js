@@ -4,14 +4,15 @@ import React, { Component } from 'react';
 class Post extends Component{
 
   render(){
+    const post =  this.props.post;
     return(
- <div className = "Post" >
-  <h1> POST </h1>
-    <p> Title </p>
-    <p> Author </p>
-    <p> Body  </p>
-    <p> category </p>
-    <p> Timestamp </p>
+  <div className = "Post" >
+    <strong>{`voteScore: ${post.voteScore}`}</strong>
+    <p>{ post.title }</p>
+    <p>{ post.body }</p>
+    <p>{ post.author }</p>
+    <p>{ post.category}</p>
+    <p>{ post.timestamp}</p>
  </div>
 
 

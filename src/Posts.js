@@ -5,19 +5,12 @@ import Post from './Post'
 export default class Posts extends Component {
 
 render(){
-   var posts = [];
-
-  for(var i= 0; i<10;i++){
-    posts.push(<Post />)
-  }
 
   return (
  <div className = "Posts" >
-
- <h1>  Posts </h1>
- { posts}
- 
-
+ {
+           this.props.posts.map((p) => <Post key={p.timestamp} post={p} />)
+        }
   </div>
 
 
