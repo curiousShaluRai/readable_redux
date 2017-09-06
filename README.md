@@ -19,3 +19,11 @@
     npm install --save react-router-dom
 
 [for more details](https://www.npmjs.com/package/react-router-dom)
+
+### react- modal and loading
+
+    npm insta react-loading react-modal
+
+ [for more detail](https://www.npmjs.com/package/react-modal)
+
+ [for more detail](https://www.npmjs.com/package/react-loading)
