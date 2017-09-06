@@ -7,10 +7,10 @@ export default class Posts extends Component {
 render(){
 
   return (
- <div className = "Posts" >
- {
-           this.props.posts.map((p) => <Post key={p.timestamp} post={p} />)
-        }
+     <div className = "Posts" >
+      {
+        this.props.posts.map((p,key) => <Post key={ key } post={p} />)
+      }
   </div>
 
 

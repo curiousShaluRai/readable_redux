@@ -1,5 +1,6 @@
 
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 class Post extends Component{
 
@@ -8,7 +9,7 @@ class Post extends Component{
     return(
   <div className = "Post" >
     <strong>{`voteScore: ${post.voteScore}`}</strong>
-    <p>{ post.title }</p>
+     <Link to={`/${post.category}/${post.id}`}>{ post.title }</Link>
     <p>{ post.body }</p>
     <p>{ post.author }</p>
     <p>{ post.category}</p>

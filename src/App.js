@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import  Posts from './Posts';
 import Filter from './Filter'
+import ShowPost from './ShowPost';
+import { Route } from 'react-router-dom'
 import * as ReadableAPI from './utils/ReadableAPI'
 
 
@@ -11,19 +13,25 @@ class App extends Component {
   }
 
   componentWillMount = () => {
-    ReadableAPI.getAllPosts().then((posts) => this.setState({posts}))
+    ReadableAPI
+    .getAllPosts()
+    .then((posts) => this.setState({posts}))
   }
 
-
   render() {
-    return (
+  		      return (
+        <div>
+          <Route exact path="/" render={() => (
+                <div className="App">
+                 <h1> Readable </h1>
+                 <Posts posts={this.state.posts}/>
+                  <Filter />
+                </div>
+              )}
+            />
 
-
-    <div className="App">
-       <Posts posts = {this.state.posts}/>
-       <Filter/>
-   </div>
-
+          <Route path="/:category/:postId" component={ShowPost} />
+          </div>
     );
   }
 }

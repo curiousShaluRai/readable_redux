@@ -16,6 +16,8 @@ body {
   left: 0;
 }
 
+/* category*/
+
 .filter {
    position: fixed;
   right: 0;
@@ -25,4 +27,10 @@ body {
   box-sizing: border-box;
   height: 100vh;
   border-left: 1px solid #4f4f4f;
+}
+
+/*comments*/
+.Comment {
+  margin-bottom: 42px;
+  white-space: nowrap;
 }
