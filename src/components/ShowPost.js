@@ -1,9 +1,8 @@
-
 import React, { Component } from 'react';
 import Post from './Post';
 import Comments from './Comments';
 import AddCommentForm from './AddCommentForm'
-import * as ReadableAPI from './utils/ReadableAPI';
+import * as ReadableAPI from '../utils/ReadableAPI';
 import { Link } from 'react-router-dom';
 
 

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import * as ReadableAPI from './utils/ReadableAPI';
+import * as ReadableAPI from '../utils/ReadableAPI';
 
 
 export default class Comment extends Component {

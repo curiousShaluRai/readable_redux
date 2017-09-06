@@ -4,7 +4,7 @@ import Filter from './Filter'
 import ShowPost from './ShowPost';
 import AddPostForm from './AddPostForm';
 import { Route } from 'react-router-dom'
-import * as ReadableAPI from './utils/ReadableAPI'
+import * as ReadableAPI from '../utils/ReadableAPI'
 
 
 class App extends Component {
@@ -35,7 +35,7 @@ class App extends Component {
 
     <div className = "footer">
           <AddPostForm />
-          </div>   
+          </div>
 
           </div>
     );

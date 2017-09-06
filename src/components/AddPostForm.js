@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import Modal from 'react-modal';
-import * as ReadableAPI from './utils/ReadableAPI';
+import * as ReadableAPI from '../utils/ReadableAPI';
 ;
 
 const customStyles = {

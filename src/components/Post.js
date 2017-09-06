@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import * as ReadableAPI from './utils/ReadableAPI';
+import * as ReadableAPI from '../utils/ReadableAPI';
 
 class Post extends Component{
 
