@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import  Posts from './Posts';
 import Filter from './Filter'
 import ShowPost from './ShowPost';
+//import AddCommentForm from  './AddCommentForm'
 import { Route } from 'react-router-dom'
 import * as ReadableAPI from './utils/ReadableAPI'
 
@@ -31,6 +32,11 @@ class App extends Component {
             />
 
           <Route path="/:category/:postId" component={ShowPost} />
+
+      {/*<div className = "footer">
+          <AddCommentForm />
+          </div>
+          */}
           </div>
     );
   }

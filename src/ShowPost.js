@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import Post from './Post';
 import Comments from './Comments';
+import AddCommentForm from './AddCommentForm'
 import * as ReadableAPI from './utils/ReadableAPI';
 import { Link } from 'react-router-dom';
 
@@ -16,7 +17,7 @@ export default class ShowPost extends Component {
     const postId = this.props.match.params.postId;
     ReadableAPI.getPost(postId)
              .then((post) => this.setState({post}))
-             
+
     ReadableAPI.getPostComments(postId)
                .then((comments) => this.setState({comments}))
   }
@@ -28,6 +29,7 @@ export default class ShowPost extends Component {
       <div>
         <Link to="/">Back Home</Link>
         <Post post={post} />
+        <AddCommentForm />
         <Comments comments={comments} />
       </div>
     )
