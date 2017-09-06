@@ -30,7 +30,7 @@ export default class AddPostForm extends Component {
 
   componentWillMount() {
     ReadableAPI
-    .getAllCategories()
+    .getAllCategories() //to get all categories from server
     .then((categories) => this.setState({categories}))
   }
 
@@ -56,7 +56,7 @@ export default class AddPostForm extends Component {
           onAfterOpen={this.afterOpenModal}
           onRequestClose={this.closeModal}
           style={customStyles}
-          contentLabel="Apply  Modal"
+          contentLabel="Add  Post"
         >
 
           <h2 ref={subtitle => this.subtitle = subtitle}>Add a New Post</h2>
