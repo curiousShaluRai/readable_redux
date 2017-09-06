@@ -15,6 +15,7 @@ export default class ShowPost extends Component {
 
   componentWillMount = () => {
     const postId = this.props.match.params.postId;
+
     ReadableAPI.getPost(postId)
              .then((post) => this.setState({post}))
 

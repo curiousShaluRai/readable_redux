@@ -33,9 +33,9 @@ class App extends Component {
 
           <Route path="/:category/:postId" component={ShowPost} />
 
-      <div className = "footer">
+    <div className = "footer">
           <AddPostForm />
-          </div>
+          </div>   
 
           </div>
     );

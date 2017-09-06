@@ -34,9 +34,10 @@ voteDetermine = this.voteDetermine.bind(this);
     return(
   <div className = "Post" >
   <input type="button" value="upVote" onClick={this.voteDetermine} />
+  <strong>{`voteScore: ${post.voteScore}`}</strong>
   <input type="button" value="downVote" onClick={this.voteDetermine} />
 
-    <strong>{`voteScore: ${post.voteScore}`}</strong>
+
      <Link to={`/${post.category}/${post.id}`}>{ post.title }</Link>
     <p>{ post.body }</p>
     <p>{ post.author }</p>
