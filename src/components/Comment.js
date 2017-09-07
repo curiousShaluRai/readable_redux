@@ -28,7 +28,13 @@ voteDetermine(events){
 
  voteDetermine = this.voteDetermine.bind(this);
 
- 
+deleteComment(){
+  const commentId = this.state.comment.id;
+  ReadableAPI
+  .deleteComment(commentId)
+  .then((comment) => this.props.updateComment(comment))
+}
+
 
   render() {
     const comment = this.state.comment;
@@ -42,6 +48,7 @@ voteDetermine(events){
             <p>{ comment.body }</p>
             <p>{ comment.author }</p>
             <p>{ comment.timestamp}</p>
+            <input type="button" value="DELETE" onClick={this.deleteComment.bind(this)} />
           </div>
         )
 
