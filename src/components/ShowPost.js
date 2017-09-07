@@ -22,6 +22,11 @@ export default class ShowPost extends Component {
                .then((comments) => this.setState({comments}))
   }
 
+  addComment(comment) {
+     const comments = [comment, ...this.state.comments];
+    this.setState({ comments })
+  }
+
   render() {
     const post = this.state.post
     const comments = this.state.comments
@@ -29,7 +34,8 @@ export default class ShowPost extends Component {
       <div>
         <Link to="/">Back Home</Link>
         <Post post={post} />
-        <AddCommentForm />
+        <AddCommentForm addComment={this.addComment.bind(this)}
+                           parentId={post.id} />
         <Comments comments={comments} />
       </div>
     )

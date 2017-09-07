@@ -7,15 +7,17 @@ export default class Comment extends Component {
   state = {
     comment: {}
   }
-
+///  get the comments
 componentWillMount(){
   this.setState({comment: this.state.comment})
 }
 
+// get comments , when props changed
 componentWillReceiveProps(newVal){
   this.setState({comment: newVal.comment})
 }
 
+// vote for comments
 voteDetermine(events){
   const voteType = events.target.value;
   const commentId = this.props.comment.id;
@@ -25,6 +27,8 @@ voteDetermine(events){
 }
 
  voteDetermine = this.voteDetermine.bind(this);
+
+ 
 
   render() {
     const comment = this.state.comment;
