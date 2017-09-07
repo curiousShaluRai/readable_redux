@@ -24,7 +24,7 @@ export default class ShowPost extends Component {
 
   addComment(comment) {
      const comments = [comment, ...this.state.comments];
-    this.setState({ comments })
+    this.setState({comments})
   }
 
   render() {

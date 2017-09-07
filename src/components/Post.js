@@ -20,6 +20,15 @@ componentWillReceiveProps(newVal){
   this.setState({post: newVal.post})
 }
 
+deletePost(){
+
+  const postId = this.state.post.id;
+  ReadableAPI
+  .deletePost(postId);
+  this.props.updatePosts(postId);
+
+}
+
 voteDetermine(e) {
      const voteType = e.target.value;
      const postId = this.props.post.id;
@@ -43,6 +52,11 @@ voteDetermine = this.voteDetermine.bind(this);
     <p>{ post.author }</p>
     <p>{ post.category}</p>
     <p>{ post.timestamp}</p>
+
+    <input
+    type = "button"
+    value = "DELETE"
+    onClick = { this.deletePost.bind(this)}/>
  </div>
 
 

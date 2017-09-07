@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-
 import Modal from 'react-modal';
 import * as ReadableAPI from '../utils/ReadableAPI';
-;
+
 
 const customStyles = {
   content : {
@@ -20,19 +19,50 @@ export default class AddPostForm extends Component {
 
     state = {
       modalIsOpen: false,
-      categories: []
+      categories: [],
+      author : '',
+      body : '',
+      title: '',
+      category: ''
     };
 
-    openModal = this.openModal.bind(this);
+  openModal = this.openModal.bind(this);
    afterOpenModal = this.afterOpenModal.bind(this);
    closeModal = this.closeModal.bind(this);
-
 
   componentWillMount() {
     ReadableAPI
     .getAllCategories() //to get all categories from server
     .then((categories) => this.setState({categories}))
   }
+
+  handleSubmit(events) {
+    events.preventDefault();
+
+      const author = this.state.author;
+      const body = this.state.body;
+      const title = this.state.title;
+      const category = this.state.category;
+
+      ReadableAPI.addPost(author, body, title, category)
+                 .then((p) => {
+                   this.props.addPost(p)
+                   this.closeModal()
+                 });
+    }
+
+    handleSubmit = this.handleSubmit.bind(this);
+
+    handleInput(events) {
+      const newVal = events.target.value;
+      const property = events.target.name;
+
+      let stateObj = Object.assign({}, this.state);
+      stateObj[property] = newVal;
+
+      this.setState(stateObj);
+    }
+    handleInput = this.handleInput.bind(this);
 
   openModal() {
     this.setState({modalIsOpen: true});
@@ -47,7 +77,8 @@ export default class AddPostForm extends Component {
     this.setState({modalIsOpen: false});
   }
 
-  render() {
+
+render() {
     return (
       <div className="modal">
         <button className="add" onClick={this.openModal}>Add Post</button>
@@ -61,11 +92,29 @@ export default class AddPostForm extends Component {
 
           <h2 ref={subtitle => this.subtitle = subtitle}>Add a New Post</h2>
           <button onClick={this.closeModal}>close</button>
-          <form>
-            <input type="text" placeholder="post author"/>
-            <input type="text" placeholder="post title"/>
-            <textarea placeholder="post body" />
-            <select>
+          <form onSubmit = { this.handleSubmit} >
+            <input type="text"
+            placeholder="post author"
+            name = "author"
+            value = {this.state.author}
+            onChange = {this.handleInput}
+            />
+            <input type="text"
+            placeholder="post title"
+            name = 'title'
+            value = {this.state.title}
+            onChange = {this.handleInput}
+            />
+            <textarea
+            placeholder="post body"
+            name = "body"
+            value = {this.state.body}
+            onChange= { this.handleInput}
+             />
+            <select
+            name= "category"
+            value = {this.state.category}
+            onChange = {this.handleInput}>
               {
                 this.state.categories.map((cat , key) =>
                   <option key = {key} value={cat.name}>{cat.name}</option>
@@ -78,4 +127,4 @@ export default class AddPostForm extends Component {
       </div>
     );
   }
-}
+ }

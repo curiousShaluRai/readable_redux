@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import  Posts from './Posts';
 import Filter from './Filter'
 import ShowPost from './ShowPost';
-import AddPostForm from './AddPostForm';
 import { Route } from 'react-router-dom'
 import * as ReadableAPI from '../utils/ReadableAPI'
 
@@ -16,7 +15,15 @@ class App extends Component {
   componentWillMount = () => {
     ReadableAPI
     .getAllPosts()
-    .then((posts) => this.setState({posts}))
+    .then((posts) => {
+      const currentPosts = posts.filter(p => p.deleted === false)
+      this.setState({posts: currentPosts})
+    } )
+  }
+
+  addPost(post){
+    const posts = [post, ...this.state.posts];
+    this.setState({posts})
   }
 
   render() {
@@ -25,7 +32,9 @@ class App extends Component {
           <Route exact path="/" render={() => (
                 <div className="App">
                  <h1> Readable </h1>
-                 <Posts posts={this.state.posts}/>
+                 <Posts
+                 addPost={this.addPost.bind(this)}
+                 posts = {this.state.posts}/>
                   <Filter />
                 </div>
               )}
@@ -33,9 +42,7 @@ class App extends Component {
 
           <Route path="/:category/:postId" component={ShowPost} />
 
-    <div className = "footer">
-          <AddPostForm />
-          </div>
+
 
           </div>
     );
