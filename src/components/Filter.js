@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import * as ReadableAPI from '../utils/ReadableAPI';
+import { fetchCategories } from '../actions';
+import { connect } from 'react-redux';
 
 
-export default class Filter extends Component{
+ class Filter extends Component{
   state = {
     categories: [],
     category:'',
@@ -11,14 +12,14 @@ export default class Filter extends Component{
   }
 
   componentWillMount = () => {
-    ReadableAPI
-    .getAllCategories()
-    .then((categories) => this.setState({categories}))
+  this.props.fetchCategories();
+
   }
 
   componentWillReceiveProps = (newVal) => {
   const category = newVal.match.params.category || '';
-    this.setState({ category });
+  const categories = newVal.categories;
+    this.setState({ category, categories });
   }
 
   handleSortChange = (events) => {
@@ -89,3 +90,20 @@ export default class Filter extends Component{
 )
 }
 }
+
+function mapStateToProps(state){
+  return{
+    categories: state.categories
+  }
+}
+
+function mapDispatchToProps(dispatch){
+  return{
+    fetchCategories: () => dispatch(fetchCategories())
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Filter);

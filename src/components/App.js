@@ -4,7 +4,7 @@ import { fetchPosts } from '../actions'
 import  Posts from './Posts';
 import Filter from './Filter'
 import ShowPost from './ShowPost';
-import { Route } from 'react-router-dom'
+import { Route, BrowserRouter, Switch } from 'react-router-dom'
 
 
 
@@ -45,25 +45,33 @@ class App extends Component {
 
   render() {
   		      return (
-        <div>
-          <Route exact path="/:category?" render={(props) => (
-                <div className="App">
-                 <h1> Readable </h1>
-                 <Posts
-                 addPost={this.addPost.bind(this)}
-                 {...props}
-                 posts = {this.state.posts}/>
-                  <Filter sortPosts = {this.sortPosts.bind(this)}
-                  {...props}/>
-                </div>
-              )}
-            />
+              <BrowserRouter>
+              <Switch>
 
-          <Route path="/:category/:postId" component={ShowPost} />
+              <Route exact path="/:category?" render={(props) => (
+                    <div className="App">
+                     <h1> Readable </h1>
+                     <Posts
+                     addPost={this.addPost.bind(this)}
+                     {...props}
+                     posts = {this.state.posts}/>
+                      <Filter sortPosts = {this.sortPosts.bind(this)}
+                      {...props}/>
+                    </div>
+                  )}
+                />
+
+              <Route path="/:category/:postId" component={ShowPost} />
+
+              </Switch>
+
+              </BrowserRouter>
 
 
 
-          </div>
+
+
+
     );
   }
 }

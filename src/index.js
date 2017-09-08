@@ -3,8 +3,6 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './components/App';
 import registerServiceWorker from './registerServiceWorker';
-import { BrowserRouter } from 'react-router-dom';
-
 import { createStore, applyMiddleware, compose } from 'redux';
 //when we don't export any function then we can import reducer from reducers  file.
 import reducer from './reducers';
@@ -49,9 +47,9 @@ const store = createStore(
 // or needs to dispatch an action,will be able to more easily do that.
 ReactDOM.render(
   <Provider store={store}>
-  <BrowserRouter>
+
     <App />
-  </BrowserRouter>
+
 </Provider>,
  document.getElementById('root'));
 registerServiceWorker();
