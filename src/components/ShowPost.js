@@ -66,12 +66,12 @@ export default class ShowPost extends Component {
            onChange= {this.handleSortChange.bind(this)} >
            <option
            value = "voteScore"
-           selected = {this.state.sortKey == 'voteScore'} >
+           selected = {this.state.sortKey === 'voteScore'} >
            Sort By Votes
            </option>
            <option
            value = "timeStamp"
-           selected= {this.state.sortKey == 'timeStamp'}
+           selected= {this.state.sortKey === 'timeStamp'}
            >
            Sort By Time
            </option>

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import EditCommentForm from './EditCommentForm'
 import * as ReadableAPI from '../utils/ReadableAPI';
 
 
@@ -35,6 +36,10 @@ deleteComment(){
   .then((comment) => this.props.updateComment(comment))
 }
 
+editComment(editedComment){
+  this.setState({comment:editedComment});
+}
+
 
   render() {
     const comment = this.state.comment;
@@ -49,6 +54,9 @@ deleteComment(){
             <p>{ comment.author }</p>
             <p>{ comment.timestamp}</p>
             <input type="button" value="DELETE" onClick={this.deleteComment.bind(this)} />
+            <EditCommentForm
+            comment= {comment}
+            editComment= {this.editComment.bind(this)} />
           </div>
         )
 
