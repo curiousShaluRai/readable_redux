@@ -34,13 +34,14 @@ export default class Filter extends Component{
 
    <h1> Category</h1>
    <Link to="/">
-   <label for= "all">
+   <label htmlFor= "all">
    <input
    type = "radio"
    name="category"
     value=""
     id="all"
-    checked = {this.state.category === ''}/>
+    checked = {this.state.category === ''}
+    />
    All
    </label>
    </Link>
@@ -48,9 +49,9 @@ export default class Filter extends Component{
    {
      this.state.categories.map((cat, key) => {
        return(
-     <Link to = {cat.name}>
-     <p key = {key}>
-       <label for = {cat.name} key= {key}>
+     <Link  key= {key} to = {cat.name}>
+     <p>
+       <label htmlFor = {cat.name} >
        <input
         type= "radio"
         name= "category"

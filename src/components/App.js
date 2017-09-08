@@ -1,27 +1,29 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux'
+import { fetchPosts } from '../actions'
 import  Posts from './Posts';
 import Filter from './Filter'
 import ShowPost from './ShowPost';
 import { Route } from 'react-router-dom'
-import * as ReadableAPI from '../utils/ReadableAPI'
+
 
 
 class App extends Component {
 
   state = {
     posts: [],
-    sortkey:''
+    sortkey:'voteScore'
   }
 
 
   componentWillMount = () => {
-    ReadableAPI
-    .getAllPosts()
-    .then((posts) => {
-      const currentPosts = posts.filter(p => p.deleted === false)
-      this.setState({posts: currentPosts});
-      this.sortPosts('voteScore')
-    } )
+    this.props.fetchPosts();
+  }
+
+  componentWillReceiveProps(newVal){
+    const postss = newVal.posts;
+    const activePost = postss.filter(p => p.deleted === false)
+    this.setState({ posts: activePost});
   }
 
   addPost(post){
@@ -51,7 +53,7 @@ class App extends Component {
                  addPost={this.addPost.bind(this)}
                  {...props}
                  posts = {this.state.posts}/>
-                  <Filter sortPosts = {this.sortPosts.bind(this)} 
+                  <Filter sortPosts = {this.sortPosts.bind(this)}
                   {...props}/>
                 </div>
               )}
@@ -66,4 +68,19 @@ class App extends Component {
   }
 }
 
-export default App;
+function mapStateToProps(state){
+  return{
+    posts: state.posts
+  }
+}
+
+function mapDispatchToProps(dispatch){
+  return{
+    fetchPosts: () => dispatch(fetchPosts())
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App);

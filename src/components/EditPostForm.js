@@ -115,8 +115,8 @@ export default class EditPostForm extends Component {
                     value={this.state.category}
                     onChange={this.handleInput} >
               {
-                this.state.categories.map((c) =>
-                  <option value={c.name}>{c.name}</option>
+                this.state.categories.map((c , k) =>
+                  <option key={k} value={c.name}>{c.name}</option>
                 )
               }
             </select>
