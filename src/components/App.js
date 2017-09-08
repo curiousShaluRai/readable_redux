@@ -9,21 +9,36 @@ import * as ReadableAPI from '../utils/ReadableAPI'
 class App extends Component {
 
   state = {
-    posts: []
+    posts: [],
+    sortkey:''
   }
+
 
   componentWillMount = () => {
     ReadableAPI
     .getAllPosts()
     .then((posts) => {
       const currentPosts = posts.filter(p => p.deleted === false)
-      this.setState({posts: currentPosts})
+      this.setState({posts: currentPosts});
+      this.sortPosts('voteScore')
     } )
   }
 
   addPost(post){
     const posts = [post, ...this.state.posts];
     this.setState({posts})
+  }
+
+  sortPosts(sortKey){
+    this.setState({ sortKey  });
+    const posts = this.state.posts.sort(this.sortByKey(sortKey).bind(this));
+    this.setState({ posts});
+  }
+
+  sortByKey(sortKey){
+    return function(a,b){
+      return a[sortKey]< b[sortKey];
+    }
   }
 
   render() {
@@ -36,7 +51,8 @@ class App extends Component {
                  addPost={this.addPost.bind(this)}
                  {...props}
                  posts = {this.state.posts}/>
-                  <Filter {...props}/>
+                  <Filter sortPosts = {this.sortPosts.bind(this)} 
+                  {...props}/>
                 </div>
               )}
             />

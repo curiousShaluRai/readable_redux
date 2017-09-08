@@ -6,16 +6,25 @@ import * as ReadableAPI from '../utils/ReadableAPI';
 export default class Filter extends Component{
   state = {
     categories: [],
-    category:''
+    category:'',
+    sortKey: 'voteScore'
   }
 
   componentWillMount = () => {
-    ReadableAPI.getAllCategories().then((categories) => this.setState({categories}))
+    ReadableAPI
+    .getAllCategories()
+    .then((categories) => this.setState({categories}))
   }
 
   componentWillReceiveProps = (newVal) => {
   const category = newVal.match.params.category || '';
     this.setState({ category });
+  }
+
+  handleSortChange = (events) => {
+    const sortKey = events.target.value;
+    this.setState({sortKey});
+    this.props.sortPosts(sortKey);
   }
 
   render(){
@@ -54,11 +63,26 @@ export default class Filter extends Component{
        </Link>
 
         )
-     }
-
-)
-
+     })
 }
+{
+  <select
+  value={this.state.sortKey}
+  onChange= {this.handleSortChange.bind(this)} >
+  <option
+  value = "voteScore"
+  selected = {this.state.sortKey == 'voteScore'} >
+  Sort By Votes
+  </option>
+  <option
+  value = "timeStamp"
+  selected= {this.state.sortKey == 'timeStamp'}
+  >
+  Sort By Time
+  </option>
+  </select>
+}
+
 
 </div>
 )
