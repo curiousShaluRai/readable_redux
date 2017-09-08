@@ -2,29 +2,29 @@ import React, { Component } from 'react';
 import Post from './Post';
 import Comments from './Comments';
 import AddCommentForm from './AddCommentForm'
-import * as ReadableAPI from '../utils/ReadableAPI';
 import { Link } from 'react-router-dom';
+import { fetchPost, fetchPostComments } from '../actions'
+import { connect } from 'react-redux'
 
 
-export default class ShowPost extends Component {
+ class ShowPost extends Component {
   state = {
     post: {},
     comments: [],
-    sortkey:''
+    sortkey:'voteScore'
   }
 
   componentWillMount = () => {
     const postId = this.props.match.params.postId;
 
-    ReadableAPI.getPost(postId)
-             .then((post) => this.setState({post}))
+    this.props.fetchPostComments(postId);
+    this.props.fetchPost(postId);
+  }
 
-    ReadableAPI.getPostComments(postId)
-               .then((comments) => {
-                 this.setState({comments})
-                 this.sortComments('voteScore')
-
-               })
+  componentWillReceiveProps = (newVal) => {
+    const post = newVal.post;
+    const comments = newVal.comments;
+    this.setState({ post, comments})
   }
 
  handleSortChange =(events) =>{
@@ -82,8 +82,25 @@ export default class ShowPost extends Component {
       </div>
     )
 
-
-
-
   }
 }
+
+function mapStateToProps(state){
+  return{
+    post: state.post,
+    comments: state.comments
+  }
+}
+
+
+function mapDispatchToProps(dispatch){
+  return{
+    fetchPost:(id) => dispatch(fetchPost(id)),
+    fetchPostComments: (id) => dispatch(fetchPostComments(id))
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ShowPost);

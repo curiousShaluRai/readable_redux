@@ -7,6 +7,9 @@ import * as ReadableAPI from '../utils/ReadableAPI'
 
 export const RECEIVE_POSTS = 'RECEIVE_POSTS';
 export const RECEIVE_CATEGORIES = 'RECEIVE_CATEGORIES';
+export const RECEIVE_POST = 'RECEIVE_POST';
+export const RECEIVE_POST_COMMENTS = 'RECEIVE_POST_COMMENTS';
+
 
 // create actions for post
 
@@ -22,6 +25,30 @@ export const fetchPosts = () => dispatch => (
   .then(posts => dispatch(receivePosts(posts)))
 );
 
+export const receivePost = post => ({
+  type: RECEIVE_POST,
+  post
+})
+
+export const fetchPost = (id) => dispatch => (
+  ReadableAPI
+  .getPost(id)
+  .then(post => dispatch(receivePost(post)))
+)
+
+// get post comments
+
+export const receivePostComments = comments => ({
+  type: RECEIVE_POST_COMMENTS,
+  comments
+})
+
+
+export const fetchPostComments = (id) =>  dispatch => (
+  ReadableAPI
+  .getPostComments(id)
+  .then( comments => dispatch(receivePostComments(comments)))
+);
 
 // get all categories
 export const receiveCategories = categories => ({
