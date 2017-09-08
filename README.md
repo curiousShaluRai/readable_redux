@@ -22,8 +22,26 @@
 
 ### react- modal and loading
 
-    npm insta react-loading react-modal
+    npm install react-loading react-modal
 
  [for more detail](https://www.npmjs.com/package/react-modal)
 
  [for more detail](https://www.npmjs.com/package/react-loading)
+
+### redux
+
+   npm install --save redux
+
+   [for more detail ](https://www.npmjs.com/package/redux)
+
+### react-redux
+
+    npm  install --save react-redux
+
+ [for more detail](https://www.npmjs.com/package/react-redux)
+
+### redux-thunk
+
+   npm install --save redux-thunk
+
+   [for more detail](https://www.npmjs.com/package/redux-thunk)
