@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import EditPostForm from './EditPostForm'
 import * as ReadableAPI from '../utils/ReadableAPI';
 
 class Post extends Component{
@@ -27,6 +28,10 @@ deletePost(){
   .deletePost(postId);
   this.props.updatePosts(postId);
 
+}
+
+editPost(editedPost){
+  this.setState({ post : editedPost});
 }
 
 voteDetermine(e) {
@@ -57,6 +62,10 @@ voteDetermine = this.voteDetermine.bind(this);
     type = "button"
     value = "DELETE"
     onClick = { this.deletePost.bind(this)}/>
+
+    <EditPostForm
+    post = { post}
+    editPost = {this.editPost.bind(this)} />
  </div>
 
 

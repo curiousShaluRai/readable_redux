@@ -47,7 +47,7 @@ class EditCommentForm extends Component {
                  this.closeModal()
                });
   }
-
+ hnadleSubmit = this.handleSubmit.bind(this);
   handleInput(e) {
     const newVal = e.target.value;
     const property = e.target.name;
@@ -57,6 +57,7 @@ class EditCommentForm extends Component {
 
     this.setState(stateObj);
   }
+  handleInput = this.handleInput.bind(this);
 
   openModal() {
     this.setState({ modalIsOpen: true });
@@ -85,13 +86,13 @@ class EditCommentForm extends Component {
 
           <h2 ref={subtitle => this.subtitle = subtitle}>Add a New Comment</h2>
           <button onClick={this.closeModal}>CLOSE</button>
-          <form onSubmit={this.handleSubmit.bind(this)}>
+          <form onSubmit={this.handleSubmit}>
             <input type="text" placeholder="comment author"
                    name="author" value={this.state.author}
-                   onChange={this.handleInput.bind(this)} />
+                   onChange={this.handleInput} />
             <textarea placeholder="comment body" name="body"
                       value={this.state.body}
-                      onChange={this.handleInput.bind(this)} />
+                      onChange={this.handleInput} />
             <input type="submit" />
           </form>
         </Modal>
