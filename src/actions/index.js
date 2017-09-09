@@ -7,10 +7,10 @@ import * as ReadableAPI from '../utils/ReadableAPI'
 
 export const RECEIVE_POSTS = 'RECEIVE_POSTS';
 export const RECEIVE_CATEGORIES = 'RECEIVE_CATEGORIES';
-export const RECEIVE_POST = 'RECEIVE_POST';
+//export const RECEIVE_POST = 'RECEIVE_POST';
 export const RECEIVE_POST_COMMENTS = 'RECEIVE_POST_COMMENTS';
-
-
+export const POST_VOTE = 'POST_VOTE';
+export const COMMENT_VOTE = 'COMMENT_VOTE';
 // create actions for post
 
 export const  receivePosts = posts => ({
@@ -25,17 +25,35 @@ export const fetchPosts = () => dispatch => (
   .then(posts => dispatch(receivePosts(posts)))
 );
 
-export const receivePost = post => ({
-  type: RECEIVE_POST,
-  post
-})
 
-export const fetchPost = (id) => dispatch => (
+export const postVote = (id, voteScore) => {
+  return {
+    type: POST_VOTE,
+    id,
+    voteScore
+  }
+}
+
+export const asyncPostVote = (id,vote) => dispatch =>(
   ReadableAPI
-  .getPost(id)
-  .then(post => dispatch(receivePost(post)))
+  .postVote(id, vote)
+  .then( post => dispatch(postVote(post.id, post.voteScore) ))
 )
 
+
+export const commentVote = (id, voteScore) => {
+  return{
+    type: 'COMMENT_VOTE',
+    id,
+    voteScore
+  }
+}
+
+export const asyncCommentVote = (id, vote) => dispatch =>(
+  ReadableAPI
+  .commentVote(id, vote)
+  .then(comment => dispatch(commentVote(comment.id, comment.voteScore)))
+)
 // get post comments
 
 export const receivePostComments = comments => ({

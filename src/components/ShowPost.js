@@ -3,7 +3,7 @@ import Post from './Post';
 import Comments from './Comments';
 import AddCommentForm from './AddCommentForm'
 import { Link } from 'react-router-dom';
-import { fetchPost, fetchPostComments } from '../actions'
+import { fetchPosts, fetchPostComments } from '../actions'
 import { connect } from 'react-redux'
 
 
@@ -16,14 +16,21 @@ import { connect } from 'react-redux'
 
   componentWillMount = () => {
     const postId = this.props.match.params.postId;
-
     this.props.fetchPostComments(postId);
     this.props.fetchPost(postId);
   }
 
   componentWillReceiveProps = (newVal) => {
-    const post = newVal.post;
+    const postId = this.props.match.params.postId;
+    const posts = newVal.posts;
     const comments = newVal.comments;
+    let post = {}
+    posts.forEach(p => {
+      if (p.id === postId) {
+      post = p;
+      }
+     });
+
     this.setState({ post, comments})
   }
 
@@ -87,7 +94,7 @@ import { connect } from 'react-redux'
 
 function mapStateToProps(state){
   return{
-    post: state.post,
+    posts: state.posts,
     comments: state.comments
   }
 }
@@ -95,7 +102,7 @@ function mapStateToProps(state){
 
 function mapDispatchToProps(dispatch){
   return{
-    fetchPost:(id) => dispatch(fetchPost(id)),
+    fetchPost:(id) => dispatch(fetchPosts(id)),
     fetchPostComments: (id) => dispatch(fetchPostComments(id))
   }
 }

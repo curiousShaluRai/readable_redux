@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import EditCommentForm from './EditCommentForm'
 import * as ReadableAPI from '../utils/ReadableAPI';
+import { asyncCommentVote } from '../actions';
+import { connect } from 'react-redux'
 
 
-export default class Comment extends Component {
+ class Comment extends Component {
 
   state = {
     comment: {}
@@ -22,10 +24,8 @@ componentWillReceiveProps(newVal){
 voteDetermine(events){
   const voteType = events.target.value;
   const commentId = this.props.comment.id;
-  ReadableAPI
-  .commentVote(commentId, voteType)
-  .then((comment) => this.setState({comment}) )
-}
+  this.props.commentVote(commentId, voteType)
+  }
 
  voteDetermine = this.voteDetermine.bind(this);
 
@@ -63,3 +63,21 @@ editComment(editedComment){
 
   }
 }
+
+
+function mapStateToProps(state){
+  return{
+    comments: state.comments
+  }
+}
+
+function mapStateTodispatch(dispatch){
+  return{
+   commentVote: (id, vote) =>  dispatch(asyncCommentVote(id, vote))
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapStateTodispatch
+)(Comment)

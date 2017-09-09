@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import EditPostForm from './EditPostForm'
-import * as ReadableAPI from '../utils/ReadableAPI';
+import { asyncPostVote } from '../actions'
+import * as ReadableAPI from '../utils/ReadableAPI'
+import { connect } from 'react-redux'
+
 
 class Post extends Component{
 
@@ -10,7 +13,9 @@ class Post extends Component{
  }
 
  componentWillMount(){
-   this.setState({post : this.props.post})
+   const post = this.props.post;
+
+   this.setState({ post })
  }
 
 //The data could have changed between the initial render and the two subsequent updates ...
@@ -36,11 +41,9 @@ editPost(editedPost){
 
 voteDetermine(e) {
      const voteType = e.target.value;
-     const postId = this.props.post.id;
-     ReadableAPI
-     .postVote(postId, voteType)
-     .then((post) => this.setState({post}))
-  }
+     const postId = this.state.post.id;
+     this.props.postVote(postId, voteType)
+       }
 voteDetermine = this.voteDetermine.bind(this);
 
   render(){
@@ -73,4 +76,19 @@ voteDetermine = this.voteDetermine.bind(this);
   }
 }
 
-export  default Post;
+function mapStateToProps(state){
+  return {
+      posts: state.posts
+  }
+}
+
+function mapDispatchToProps(dispatch){
+  return{
+    postVote: (id, vote) => dispatch(asyncPostVote(id,vote))
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Post)
