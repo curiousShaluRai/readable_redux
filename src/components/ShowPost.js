@@ -50,11 +50,7 @@ import { connect } from 'react-redux'
     }
   }
 
-  addComment(comment) {
-     const comments = [comment, ...this.state.comments];
-     this.sortComments(this.state.sortKey);
-    this.setState({comments})
-  }
+
 
   render() {
     const post = this.state.post
@@ -64,8 +60,7 @@ import { connect } from 'react-redux'
         <Link to="/">Back Home</Link>
         <Post post={post} />
         <AddCommentForm
-         addComment={this.addComment.bind(this)}
-         parentId={post.id} />
+            parentId={post.id} />
 
          {
            <select

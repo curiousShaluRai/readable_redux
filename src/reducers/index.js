@@ -7,7 +7,8 @@ import {
    COMMENT_VOTE,
    DELETE_POST,
    DELETE_COMMENT,
-   ADD_POST
+   ADD_POST,
+   ADD_COMMENT
   } from '../actions';
 
 function posts(state = [], action){
@@ -70,6 +71,11 @@ function comments( state = [], action){
       case DELETE_COMMENT:
       return state.filter(comment => (comment.id !== action.id))
 
+     case ADD_COMMENT:
+     return [
+       action.comment,
+       ...state
+     ]
 
     default :
     return state;

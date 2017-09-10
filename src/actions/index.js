@@ -69,6 +69,17 @@ export const asyncAddPost = (author, body, title, category) => dispatch =>(
   .then(post => dispatch(addPosts(post)))
 )
 
+export const addComments = (comment) =>({
+  type: ADD_COMMENT,
+  comment
+})
+
+export const asyncAddComment = (parentId, body, author) => dispatch => (
+  ReadableAPI
+  .addComment(parentId, body, author)
+  .then(comment => dispatch(addComments(comment)) )
+)
+
 export const deleteComment = (id) => ({
     type: DELETE_COMMENT,
     id
