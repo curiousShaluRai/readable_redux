@@ -26,10 +26,7 @@ class App extends Component {
     this.setState({ posts: activePost});
   }
 
-  addPost(post){
-    const posts = [post, ...this.state.posts];
-    this.setState({posts})
-  }
+
 
   sortPosts(sortKey){
     this.setState({ sortKey  });
@@ -52,9 +49,9 @@ class App extends Component {
                     <div className="App">
                      <h1> Readable </h1>
                      <Posts
-                     addPost={this.addPost.bind(this)}
+                      posts = {this.state.posts}                     
                      {...props}
-                     posts = {this.state.posts}/>
+                    />
                       <Filter sortPosts = {this.sortPosts.bind(this)}
                       {...props}/>
                     </div>

@@ -32,12 +32,11 @@ render(){
 
   return (
      <div className = "Posts" >
-     <AddPostForm addPost={this.props.addPost.bind(this)} />
+     <AddPostForm  />
               {
-            this.state.posts.map((p) =>
-            <Post key={p.timestamp}
-                    updatePosts={this.updatePosts.bind(this)}
-                    post={p} />
+            this.state.posts.map((p , key) =>
+            <Post key={key}
+                post={p} />
             )
            }
   </div>

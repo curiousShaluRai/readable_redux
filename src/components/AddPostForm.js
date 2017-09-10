@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Modal from 'react-modal';
-import * as ReadableAPI from '../utils/ReadableAPI';
-import { fetchCategories } from '../actions'
+import { fetchCategories, asyncAddPost} from '../actions'
 import { connect } from 'react-redux'
 
 
@@ -45,16 +44,13 @@ const customStyles = {
   handleSubmit(events) {
     events.preventDefault();
 
-      const author = this.state.author;
+     const author = this.state.author;
       const body = this.state.body;
       const title = this.state.title;
       const category = this.state.category;
 
-      ReadableAPI.addPost(author, body, title, category)
-                 .then((p) => {
-                   this.props.addPost(p)
-                   this.closeModal()
-                 });
+     this.props.addNewPost(author, body, title, category);
+     this.closeModal()
     }
 
     handleSubmit = this.handleSubmit.bind(this);
@@ -143,7 +139,9 @@ render() {
 
  function mapaDispatchToProps(dispatch){
    return {
-     fetchCategories: () => dispatch(fetchCategories())
+     fetchCategories: () => dispatch(fetchCategories()),
+     addNewPost: (author, body, title, category) => dispatch(
+       asyncAddPost(author,body,title,category))
    }
  }
  export default connect(

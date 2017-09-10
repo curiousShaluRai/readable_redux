@@ -6,7 +6,8 @@ import {
    POST_VOTE,
    COMMENT_VOTE,
    DELETE_POST,
-   DELETE_COMMENT
+   DELETE_COMMENT,
+   ADD_POST
   } from '../actions';
 
 function posts(state = [], action){
@@ -37,6 +38,12 @@ function posts(state = [], action){
         ? {...post, deleted: true}
         : post
       )
+
+      case ADD_POST:
+      return [
+        action.post,
+        ...state
+      ]
 
     default:
     return state;

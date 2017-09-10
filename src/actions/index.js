@@ -12,7 +12,10 @@ export const RECEIVE_POST_COMMENTS = 'RECEIVE_POST_COMMENTS';
 export const POST_VOTE = 'POST_VOTE';
 export const COMMENT_VOTE = 'COMMENT_VOTE';
 export const  DELETE_POST = 'DELETE_POST';
-export const DELETE_COMMENT = 'DELETE_COMMENT'
+export const DELETE_COMMENT = 'DELETE_COMMENT';
+export const ADD_POST = 'ADD_POST';
+export const ADD_COMMENT = 'ADD_COMMENT';
+
 // create actions for post
 
 export const  receivePosts = posts => ({
@@ -28,13 +31,12 @@ export const fetchPosts = () => dispatch => (
 );
 
 
-export const postVote = (id, voteScore) => {
-  return {
-    type: POST_VOTE,
+export const postVote = (id, voteScore) => ({
+  type: POST_VOTE,
     id,
     voteScore
-  }
-}
+
+})
 
 export const asyncPostVote = (id,vote) => dispatch =>(
   ReadableAPI
@@ -42,12 +44,11 @@ export const asyncPostVote = (id,vote) => dispatch =>(
   .then( post => dispatch(postVote(post.id, post.voteScore) ))
 )
 
-export const deletePost = (id) => {
-  return {
+export const deletePost = (id) => ({
     type: DELETE_POST,
     id
-  }
-}
+
+})
 
 export const asyncDeletePost = (id) => dispatch => (
   ReadableAPI
@@ -55,12 +56,24 @@ export const asyncDeletePost = (id) => dispatch => (
   .then( post => dispatch(deletePost(post.id)))
 )
 
-export const deleteComment = (id) => {
-  return{
+// add new post
+export const addPosts = (post) =>({
+  type:ADD_POST,
+  post
+}
+)
+
+export const asyncAddPost = (author, body, title, category) => dispatch =>(
+  ReadableAPI
+  .addPost(author, body,title,category)
+  .then(post => dispatch(addPosts(post)))
+)
+
+export const deleteComment = (id) => ({
     type: DELETE_COMMENT,
     id
   }
-}
+)
 
 export const asyncDeleteComment = (id) => dispatch => (
    ReadableAPI
@@ -69,13 +82,12 @@ export const asyncDeleteComment = (id) => dispatch => (
 
 )
 
-export const commentVote = (id, voteScore) => {
-  return{
-    type: 'COMMENT_VOTE',
+export const commentVote = (id, voteScore) => ({
+   type: 'COMMENT_VOTE',
     id,
     voteScore
   }
-}
+)
 
 export const asyncCommentVote = (id, vote) => dispatch =>(
   ReadableAPI
