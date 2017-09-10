@@ -11,6 +11,8 @@ export const RECEIVE_CATEGORIES = 'RECEIVE_CATEGORIES';
 export const RECEIVE_POST_COMMENTS = 'RECEIVE_POST_COMMENTS';
 export const POST_VOTE = 'POST_VOTE';
 export const COMMENT_VOTE = 'COMMENT_VOTE';
+export const  DELETE_POST = 'DELETE_POST';
+export const DELETE_COMMENT = 'DELETE_COMMENT'
 // create actions for post
 
 export const  receivePosts = posts => ({
@@ -40,6 +42,32 @@ export const asyncPostVote = (id,vote) => dispatch =>(
   .then( post => dispatch(postVote(post.id, post.voteScore) ))
 )
 
+export const deletePost = (id) => {
+  return {
+    type: DELETE_POST,
+    id
+  }
+}
+
+export const asyncDeletePost = (id) => dispatch => (
+  ReadableAPI
+  .deletePost(id)
+  .then( post => dispatch(deletePost(post.id)))
+)
+
+export const deleteComment = (id) => {
+  return{
+    type: DELETE_COMMENT,
+    id
+  }
+}
+
+export const asyncDeleteComment = (id) => dispatch => (
+   ReadableAPI
+   .deleteComment(id)
+   .then ( comment =>  dispatch(deleteComment(comment.id)))
+
+)
 
 export const commentVote = (id, voteScore) => {
   return{

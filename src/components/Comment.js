@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import EditCommentForm from './EditCommentForm'
-import * as ReadableAPI from '../utils/ReadableAPI';
-import { asyncCommentVote } from '../actions';
+import { asyncCommentVote, asyncDeleteComment } from '../actions';
 import { connect } from 'react-redux'
 
 
@@ -31,9 +30,8 @@ voteDetermine(events){
 
 deleteComment(){
   const commentId = this.state.comment.id;
-  ReadableAPI
-  .deleteComment(commentId)
-  .then((comment) => this.props.updateComment(comment))
+   this.props.deleteComment(commentId)
+
 }
 
 editComment(editedComment){
@@ -73,7 +71,8 @@ function mapStateToProps(state){
 
 function mapStateTodispatch(dispatch){
   return{
-   commentVote: (id, vote) =>  dispatch(asyncCommentVote(id, vote))
+   commentVote: (id, vote) =>  dispatch(asyncCommentVote(id, vote)),
+   deleteComment: (id) => dispatch(asyncDeleteComment(id))
   }
 }
 
