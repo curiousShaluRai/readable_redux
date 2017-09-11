@@ -49,7 +49,7 @@ class App extends Component {
                     <div className="App">
                      <h1> Readable </h1>
                      <Posts
-                      posts = {this.state.posts}                     
+                      posts = {this.state.posts}
                      {...props}
                     />
                       <Filter sortPosts = {this.sortPosts.bind(this)}

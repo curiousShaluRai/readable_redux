@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import EditPostForm from './EditPostForm'
 import { asyncPostVote, asyncDeletePost } from '../actions'
 import { connect } from 'react-redux'
+import { FaCaretUp, FaCaretDown, FaClose } from 'react-icons/lib/fa';
+import moment from 'moment';
 
 
 class Post extends Component{
@@ -37,7 +39,7 @@ editPost(editedPost){
 }
 
 voteDetermine(e) {
-     const voteType = e.target.value;
+     const voteType = e.target.getAttribute('data-votes');
      const postId = this.state.post.id;
      this.props.postVote(postId, voteType)
        }
@@ -45,29 +47,29 @@ voteDetermine = this.voteDetermine.bind(this);
 
   render(){
     const post =  this.state.post;
+     const time = moment(`${post.timestamp}`, "x").fromNow();
     return(
   <div className = "Post" >
-  <input type="button" value="upVote" onClick={this.voteDetermine} />
-  <strong>{`voteScore: ${post.voteScore}`}</strong>
-  <input type="button" value="downVote" onClick={this.voteDetermine} />
-
-
-     <Link to={`/${post.category}/${post.id}`}>{ post.title }</Link>
-    <p>{ post.body }</p>
-    <p>{ post.author }</p>
-    <p>{ post.category}</p>
-    <p>{ post.timestamp}</p>
-
-    <input
-    type = "button"
-    value = "DELETE"
-    onClick = { this.deletePost.bind(this)}/>
+  <div className="vote-component">
+      <FaCaretUp className="voteButton" data-votes="upVote" onClick={this.voteDetermine} />
+        <strong>{post.voteScore}</strong>
+      <FaCaretDown className="voteButton" data-votes="downVote" onClick={this.voteDetermine} />
+  </div>
+    <div className="post-info">
+      <Link to={`/${post.category}/${post.id}`} className="title-link">{ post.title }</Link>
+          <p>
+        { `submitted ${time} from ${post.author} to ` }
+  <Link className="category-link" to={`/${post.category}`}>{ post.category }</Link>
+                </p>
+    <div className="modify-buttons">
+    <FaClose className="delete-button" onClick={this.deletePost.bind(this)} />
 
     <EditPostForm
     post = { post}
-    editPost = {this.editPost.bind(this)} />
+   />
  </div>
-
+</div>
+</div>
 
     )
   }

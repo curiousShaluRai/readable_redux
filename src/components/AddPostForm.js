@@ -49,8 +49,9 @@ const customStyles = {
       const title = this.state.title;
       const category = this.state.category;
 
-     this.props.addNewPost(author, body, title, category);
-     this.closeModal()
+
+     this.props.addNewPost(author, body, title, category)
+      .then(this.closeModal())
     }
 
     handleSubmit = this.handleSubmit.bind(this);
@@ -94,7 +95,7 @@ render() {
 
           <h2 ref={subtitle => this.subtitle = subtitle}>Add a New Post</h2>
           <button onClick={this.closeModal}>close</button>
-          <form onSubmit = { this.handleSubmit} >
+          <form onSubmit = {this.handleSubmit} >
             <input type="text"
             placeholder="post author"
             name = "author"

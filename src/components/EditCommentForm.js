@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Modal from 'react-modal';
-import * as ReadableAPI from '../utils/ReadableAPI';
+import  { asyncEditComment } from '../actions'
+import { connect } from 'react-redux';
 
 
 const customStyles = {
@@ -40,14 +41,12 @@ class EditCommentForm extends Component {
     const author = this.state.author;
     const body = this.state.body;
     const commentId = this.props.comment.id;
+    this.props.editComment(commentId, author, body)
+    .then(this.closeModal());
 
-    ReadableAPI.editComment(commentId, author, body)
-               .then((c) => {
-                 this.props.editComment(c)
-                 this.closeModal()
-               });
   }
- hnadleSubmit = this.handleSubmit.bind(this);
+ handleSubmit = this.handleSubmit.bind(this);
+
   handleInput(e) {
     const newVal = e.target.value;
     const property = e.target.name;
@@ -84,7 +83,7 @@ class EditCommentForm extends Component {
           contentLabel="Example Modal"
         >
 
-          <h2 ref={subtitle => this.subtitle = subtitle}>Add a New Comment</h2>
+          <h2 ref={subtitle => this.subtitle = subtitle}>Edit Comment</h2>
           <button onClick={this.closeModal}>CLOSE</button>
           <form onSubmit={this.handleSubmit}>
             <input type="text" placeholder="comment author"
@@ -101,4 +100,20 @@ class EditCommentForm extends Component {
   }
 }
 
-export default EditCommentForm;
+
+function mapStateToProps(state){
+  return {
+    comments: state.comments
+  }
+}
+
+function mapDispatchToProps(dispatch){
+  return {
+    editComment: (commentId, body, author) => dispatch(asyncEditComment(commentId, body, author))
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(EditCommentForm)

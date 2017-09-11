@@ -57,3 +57,36 @@ button.add {
   margin-bottom: 42px;
   white-space: nowrap;
 }
+
+.vote-component {
+   display: inline-block;
+  font-size: 20px;
+  text-align: center;
+  vertical-align: middle;
+  margin-right: 10px;
+}
+
+.post-info {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.voteButton {
+  font-size: 42px;
+  cursor: pointer;
+  user-select: none;
+  display: block;
+}
+
+.delete-button {
+  background: #ff5252;
+  color: white;
+  border-radius: 5px;
+  padding: 1px 5px;
+}
+
+.edit-button {
+  font-size: 20px;
+  border-radius: 5px;
+  padding: 1px 5px;
+  }		  

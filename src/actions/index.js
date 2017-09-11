@@ -15,6 +15,9 @@ export const  DELETE_POST = 'DELETE_POST';
 export const DELETE_COMMENT = 'DELETE_COMMENT';
 export const ADD_POST = 'ADD_POST';
 export const ADD_COMMENT = 'ADD_COMMENT';
+export const EDIT_POST = ' EDIT_POST';
+export const EDIT_COMMENT = 'EDIT_COMMENT';
+
 
 // create actions for post
 
@@ -63,11 +66,34 @@ export const addPosts = (post) =>({
 }
 )
 
-export const asyncAddPost = (author, body, title, category) => dispatch =>(
+export const asyncAddPost = (author, body, title, category) => dispatch => (
   ReadableAPI
-  .addPost(author, body,title,category)
-  .then(post => dispatch(addPosts(post)))
-)
+      .addPost(author, body, title, category)
+      .then(post => dispatch(addPosts(post)))
+);
+export const editPosts = (post) =>({
+  type: EDIT_POST,
+  post
+})
+
+export const editComment = (comment) => ({
+  type: EDIT_COMMENT,
+  comment
+  })
+
+
+  export const asyncEditPost = (postId, author, body, title, category) => dispatch => (
+    ReadableAPI
+        .editPost(postId, author, body, title, category)
+        .then(post => dispatch(editPosts(post)))
+  );
+
+  export const asyncEditComment = (commentId, body, author) => dispatch => (
+    ReadableAPI
+        .editComment(commentId, body, author)
+        .then(comment => dispatch(editComment(comment)))
+  );
+
 
 export const addComments = (comment) =>({
   type: ADD_COMMENT,
@@ -76,9 +102,9 @@ export const addComments = (comment) =>({
 
 export const asyncAddComment = (parentId, body, author) => dispatch => (
   ReadableAPI
-  .addComment(parentId, body, author)
-  .then(comment => dispatch(addComments(comment)) )
-)
+      .addComment(parentId, body, author)
+      .then(comment => dispatch(addComments(comment)))
+);
 
 export const deleteComment = (id) => ({
     type: DELETE_COMMENT,

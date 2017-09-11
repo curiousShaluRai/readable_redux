@@ -8,7 +8,9 @@ import {
    DELETE_POST,
    DELETE_COMMENT,
    ADD_POST,
-   ADD_COMMENT
+   ADD_COMMENT,
+   EDIT_POST,
+   EDIT_COMMENT
   } from '../actions';
 
 function posts(state = [], action){
@@ -26,12 +28,6 @@ function posts(state = [], action){
     : post
   )
 
-  // case DELETE_POST:
-  // return  state.map(post =>
-  //    (post.id === action.id)
-  //    ? {...post, deleted: true}
-  //    : post
-  // )
 
   case DELETE_POST :
     return state.map(post =>
@@ -39,12 +35,20 @@ function posts(state = [], action){
         ? {...post, deleted: true}
         : post
       )
-
+  
       case ADD_POST:
       return [
         action.post,
         ...state
       ]
+
+      case EDIT_POST:
+      return state.map( post =>
+       (post.id === action.id)
+       ? {...action.post }
+       : post
+      )
+
 
     default:
     return state;
@@ -76,6 +80,13 @@ function comments( state = [], action){
        action.comment,
        ...state
      ]
+
+   case EDIT_COMMENT:
+   return state.map(comment =>
+   (comment.id === action.comment.id)
+   ?{ ...action.comment}
+   : comment
+   )
 
     default :
     return state;

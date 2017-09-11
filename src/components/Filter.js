@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { fetchCategories } from '../actions';
 import { connect } from 'react-redux';
+import AddPostForm from './AddPostForm'
 
 
  class Filter extends Component{
@@ -17,9 +18,9 @@ import { connect } from 'react-redux';
   }
 
   componentWillReceiveProps = (newVal) => {
-  const category = newVal.match.params.category || '';
+
   const categories = newVal.categories;
-    this.setState({ category, categories });
+    this.setState({  categories });
   }
 
   handleSortChange = (events) => {
@@ -29,19 +30,20 @@ import { connect } from 'react-redux';
   }
 
   render(){
+    const category = this.props.match.params.category;
     return (
 
   <div className = "filter">
 
    <h1> Category</h1>
    <Link to="/">
-   <label htmlFor= "all">
+   <label htmlFor="all">
    <input
-   type = "radio"
+   type ="radio"
    name="category"
-    value=""
+    value="all"
     id="all"
-    checked = {this.state.category === ''}
+    checked = {typeof category === 'undefined'}
     />
    All
    </label>
@@ -50,15 +52,16 @@ import { connect } from 'react-redux';
    {
      this.state.categories.map((cat, key) => {
        return(
-     <Link  key= {key} to = {cat.name}>
-     <p>
-       <label htmlFor = {cat.name} >
+
+     <Link  key= {key} to= {`/${cat.name}`}>
+      <p>
+     <label htmlFor = {cat.name} >
        <input
         type= "radio"
         name= "category"
         value= {cat.name}
         id={cat.name}
-        checked= {this.state.category === cat.name}/>
+        checked= {category === cat.name}/>
        {cat.name}
        </label>
        </p>
@@ -86,6 +89,10 @@ import { connect } from 'react-redux';
 }
 
 
+<div>
+
+   <AddPostForm  />
+   </div>
 </div>
 )
 }

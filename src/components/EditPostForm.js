@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Modal from 'react-modal';
-import * as ReadableAPI from '../utils/ReadableAPI';
+import { fetchCategories, asyncEditPost } from '../actions'
+import { connect } from 'react-redux'
+import { FaEdit } from 'react-icons/lib/fa';
 
 
 const customStyles = {
@@ -14,7 +16,7 @@ const customStyles = {
   }
 };
 
-export default class EditPostForm extends Component {
+ class EditPostForm extends Component {
 
   state = {
       modalIsOpen: false,
@@ -37,9 +39,15 @@ export default class EditPostForm extends Component {
        body: post.body,
         title: post.title,
          category: post.category })
-    ReadableAPI
-    .getAllCategories()
-    .then((categories) => this.setState({categories}))
+
+    this.props.fetchCategories()
+  }
+
+  componentWillReceiveProps(newVal) {
+
+    const categories = newVal.categories
+    this.setState({ categories })
+
   }
 
   handleSubmit(events) {
@@ -51,11 +59,8 @@ export default class EditPostForm extends Component {
     const category = this.state.category;
     const postId = this.props.post.id;
 
-    ReadableAPI.editPost(postId, author, body, title, category)
-               .then((p) => {
-                 this.props.editPost(p)
-                 this.closeModal()
-               });
+    this.props.editPost(postId, author, body, title, category)
+    .then(this.closeModal())
   }
 
   handleSubmit = this.handleSubmit.bind(this);
@@ -88,9 +93,9 @@ export default class EditPostForm extends Component {
   render() {
     return (
       <div className="modal">
-        <button
-        className="edit"
-        onClick={this.openModal}>Edit Post</button>
+        <FaEdit
+        className="edit-button"
+        onClick={this.openModal} />
         <Modal
           isOpen={this.state.modalIsOpen}
           onAfterOpen={this.afterOpenModal}
@@ -99,7 +104,7 @@ export default class EditPostForm extends Component {
           contentLabel="Example Modal"
         >
 
-          <h2 ref={subtitle => this.subtitle = subtitle}>Add a New Post</h2>
+          <h2 ref={subtitle => this.subtitle = subtitle}>Edit Post</h2>
           <button onClick={this.closeModal}>CLOSE</button>
           <form onSubmit={this.handleSubmit}>
             <input type="text" placeholder="post author"
@@ -127,3 +132,21 @@ export default class EditPostForm extends Component {
     );
   }
 }
+function mapStateToProps(state){
+  return{
+    categories: state.categories
+  }
+}
+
+function mapDispatchToProps(dispatch){
+  return{
+    fetchCategories: () => dispatch(fetchCategories()),
+    editPost: (postId, author, body, title, category) => dispatch(
+      asyncEditPost(postId, author, body, title, category))
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(EditPostForm)

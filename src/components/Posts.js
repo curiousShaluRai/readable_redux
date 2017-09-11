@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Post from './Post'
-import AddPostForm from './AddPostForm';
+
 
 
 export default class Posts extends Component {
@@ -32,7 +32,7 @@ render(){
 
   return (
      <div className = "Posts" >
-     <AddPostForm  />
+
               {
             this.state.posts.map((p , key) =>
             <Post key={key}
