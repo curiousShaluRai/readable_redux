@@ -3,75 +3,49 @@ import NavBar from './NavBar'
 import Post from './Post';
 import Comments from './Comments';
 import AddCommentForm from './AddCommentForm'
-import { fetchPosts, fetchPostComments } from '../actions'
+import {  fetchPostComments, changeCommentSortKey } from '../actions'
 import { connect } from 'react-redux'
 
 
  class ShowPost extends Component {
-  state = {
-    post: {},
-    comments: [],
-    sortkey:'voteScore'
-  }
+
 
   componentWillMount = () => {
     const postId = this.props.match.params.postId;
     this.props.fetchPostComments(postId);
-    this.props.fetchPost(postId);
-  }
+    }
 
-  componentWillReceiveProps = (newVal) => {
-    const postId = this.props.match.params.postId;
-    const posts = newVal.posts;
-    const comments = newVal.comments;
-    let post = {}
-    posts.forEach(p => {
-      if (p.id === postId) {
-      post = p;
-      }
-     });
-
-    this.setState({ post, comments})
-  }
 
  handleSortChange =(events) =>{
    const sortKey =  events.target.value;
-   this.sortComments(sortKey);
+   this.props.changeCommentSortKey(sortKey);
  }
-  sortComments(sortKey){
-    this.setState({ sortKey });
-    const comments = this.state.comments.sort(this.sortByKey(sortKey).bind(this));
-    this.setState({ comments});
-  }
-
-  sortByKey(sortKey){
-    return function(a,b){
-      return a[sortKey]< b[sortKey];
-    }
-  }
-
-
 
   render() {
-    const post = this.state.post
-    const comments = this.state.comments
+    const postId = this.props.match.params.postId;
+     const comments = this.props.comments;
+     const sortKey = this.props.commentsSortKey;
+
     return (
       <div>
         <NavBar detail={true} />
-        <Post post={post} detail={true} />
+        <Post postId={postId} detail={true} />
         <div>
-          <AddCommentForm parentId={post.id} />
+          <AddCommentForm parentId={postId} />
           <div className="comments-content">
             <h3>Comments</h3>
             {
-              <label for="select-comments-sort" className="sort-comments-label">
+              <label htmlFor="select-comments-sort" className="sort-comments-label">
                 <p>Sort By</p>
-                <select id="select-comments-sort" value={this.state.sortKey}
+                <select id="select-comments-sort"
+                value={sortKey}
                  onChange={this.handleSortChange.bind(this)} >
-                  <option value="voteScore" selected={this.state.sortKey === 'voteScore'} >
+                  <option value="voteScore"
+                   selected={sortKey === 'voteScore'} >
                     Sort By Vote
                   </option>
-                  <option value="timestamp" selected={this.state.sortKey === 'timestamp'}>
+                  <option value="timestamp"
+                   selected={sortKey === 'timestamp'}>
                     Sort By Time
                   </option>
                 </select>
@@ -89,15 +63,17 @@ import { connect } from 'react-redux'
 function mapStateToProps(state){
   return{
     posts: state.posts,
-    comments: state.comments
+    comments: state.comments,
+    commentsSortKey: state.commentsSortKey
   }
 }
 
 
 function mapDispatchToProps(dispatch){
   return{
-    fetchPost:(id) => dispatch(fetchPosts(id)),
-    fetchPostComments: (id) => dispatch(fetchPostComments(id))
+    
+    fetchPostComments: (id) => dispatch(fetchPostComments(id)),
+     changeCommentSortKey: (key) => dispatch(changeCommentSortKey(key))
   }
 }
 

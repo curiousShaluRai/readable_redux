@@ -11,6 +11,7 @@ import {
    ADD_POST,
   CHANGE_ADD_POST_FORM,
   CHANGE_POST_SORT_KEY,
+   CHANGE_COMMENT_SORT_KEY,
   SET_FILTER_VISIBILITY,
    RECEIVE_POST_COMMENTS_NUM,
    ADD_COMMENT,
@@ -191,6 +192,15 @@ function postCommentsNumMap(state = {}, action) {
   }
 }
 
+function commentSortKey(state = 'voteScore', action) {
+  switch (action.type) {
+    case CHANGE_COMMENT_SORT_KEY :
+      return action.key
+    default :
+      return state
+  }
+}
+
 // An object whose values correspond to different reducing functions that need to be combined into one.
 export default combineReducers({
   posts,
@@ -200,6 +210,7 @@ export default combineReducers({
   postToAdd,
   addPostModalIsOpen,
   postSortKey,
+  commentSortKey,
   postCommentsNum,
   postCommentsNumMap,
   filtersSlideClass
