@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Modal from 'react-modal';
 import { fetchCategories, asyncEditPost } from '../actions'
 import { connect } from 'react-redux'
-import { FaEdit } from 'react-icons/lib/fa';
+import { FaEdit, FaClose } from 'react-icons/lib/fa';
 
 
 const customStyles = {
@@ -36,7 +36,6 @@ const customStyles = {
     };
 
   openModal = this.openModal.bind(this);
-  afterOpenModal = this.afterOpenModal.bind(this);
   closeModal = this.closeModal.bind(this);
 
 
@@ -89,10 +88,7 @@ const customStyles = {
     this.setState({ modalIsOpen: true });
   }
 
-  afterOpenModal() {
-    // references are now sync'd and can be accessed.
-    this.subtitle.style.color = '#003366';
-  }
+
 
   closeModal() {
     this.setState({modalIsOpen: false});
@@ -106,37 +102,60 @@ const customStyles = {
         onClick={this.openModal} />
         <Modal
           isOpen={this.state.modalIsOpen}
-          onAfterOpen={this.afterOpenModal}
           onRequestClose={this.closeModal}
           style={customStyles}
           contentLabel="Example Modal"
         >
 
-          <h2 ref={subtitle => this.subtitle = subtitle}>Edit Post</h2>
-          <button onClick={this.closeModal}>CLOSE</button>
-          <form onSubmit={this.handleSubmit}>
-            <input type="text" placeholder="post author"
-                   name="author" value={this.state.author}
-                   onChange={this.handleInput} />
-            <input type="text" placeholder="post title"
-                   name="title" value={this.state.title}
-                   onChange={this.handleInput} />
-            <textarea placeholder="post body" name="body"
-                      value={this.state.body}
-                      onChange={this.handleInput} />
-            <select name="category"
-                    value={this.state.category}
-                    onChange={this.handleInput} >
-              {
-                this.state.categories.map((c , k) =>
-                  <option key={k} value={c.name}>{c.name}</option>
-                )
-              }
-            </select>
-            <input type="submit" />
-          </form>
-        </Modal>
-      </div>
+        <div>
+       <h2 className="modal-title" ref={subtitle => this.subtitle = subtitle}>Edit Post</h2>
+       <FaClose className="modal-close" onClick={this.closeModal} />
+     </div>
+     <form onSubmit={this.handleSubmit}>
+       <label for="author">
+         <p>Author</p>
+         <input type="text"
+               placeholder="post author"
+                id="author"
+                name="author"
+                 value={this.state.author}
+                onChange={this.handleInput} />
+       </label>
+       <label for="title">
+         <p>Title</p>
+         <input type="text"
+               placeholder="post title"
+                id="title"
+                name="title"
+                 value={this.state.title}
+                onChange={this.handleInput} />
+       </label>
+       <label for="body">
+         <p>Body</p>
+         <textarea
+          placeholder="post body"
+           name="body"
+           id="body"
+          value={this.state.body}
+          onChange={this.handleInput} />
+       </label>
+       <label for="category">
+         <p>Category</p>
+         <select name="category"
+                 id="category"
+                 value={this.state.category}
+                 onChange={this.handleInput} >
+           {
+             this.state.categories.map((cat, key) =>
+               <option key = {key} value={cat.name}>{cat.name}</option>
+             )
+           }
+         </select>
+       </label>
+       <input type="submit" />
+     </form>
+   </Modal>
+ </div>
     );
   }
 }

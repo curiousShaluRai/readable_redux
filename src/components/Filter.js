@@ -72,26 +72,23 @@ import AddPostForm from './AddPostForm'
      })
 }
 {
-  <select
-  value={this.state.sortKey}
-  onChange= {this.handleSortChange.bind(this)} >
-  <option
-  value = "voteScore"
-  selected = {this.state.sortKey === 'voteScore'} >
-  Sort By Votes
-  </option>
-  <option
-  value = "timeStamp"
-  selected= {this.state.sortKey === 'timeStamp'}
-  >
-  Sort By Time
-  </option>
-  </select>
+  <label htmlFor="select-sort" className="select-sort-label">
+      <h3>Sort Type</h3>
+      <select
+        value={this.state.sortKey}
+        onChange={this.handleSortChange.bind(this)}
+        id="select-sort" >
+      <option value="voteScore" selected={this.state.sortKey === 'voteScore'} >
+      Sort by Votes
+      </option>
+      <option value="timestamp" selected={this.state.sortKey === 'timestamp'}>
+      Sort by Time
+      </option>
+      </select>
+      </label>
+
 }
-
-
 <div>
-
    <AddPostForm  />
    </div>
 </div>

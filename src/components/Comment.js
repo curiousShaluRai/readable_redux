@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import EditCommentForm from './EditCommentForm'
 import { asyncCommentVote, asyncDeleteComment } from '../actions';
+import moment from 'moment'
+import { FaCaretUp, FaCaretDown, FaClose } from 'react-icons/lib/fa'
 import { connect } from 'react-redux'
 
 
@@ -20,13 +22,11 @@ componentWillReceiveProps(newVal){
 }
 
 // vote for comments
-voteDetermine(events){
-  const voteType = events.target.value;
+voteDetermine(voteType){
   const commentId = this.props.comment.id;
   this.props.commentVote(commentId, voteType)
   }
 
- voteDetermine = this.voteDetermine.bind(this);
 
 deleteComment(){
   const commentId = this.state.comment.id;
@@ -41,24 +41,27 @@ editComment(editedComment){
 
   render() {
     const comment = this.state.comment;
-
+const time = moment(`${comment.timestamp}`, "x").fromNow();
       return (
-          <div className="Comment">
-          <input type="button" value="upVote" onClick = {this.voteDetermine} />
-            <strong>{`voteScore: ${comment.voteScore}`}</strong>
-          <input type="button" value="downVote" onClick = {this.voteDetermine} />
-            <p>{ comment.title }</p>
-            <p>{ comment.body }</p>
-            <p>{ comment.author }</p>
-            <p>{ comment.timestamp}</p>
-            <input type="button" value="DELETE" onClick={this.deleteComment.bind(this)} />
-            <EditCommentForm
-            comment= {comment}
-            editComment= {this.editComment.bind(this)} />
-          </div>
+
+    <div className="Comment">
+    <div className="vote-component">
+   <FaCaretUp className="voteButton" onClick={this.voteDetermine.bind(this, "upVote")} />
+   <strong>{comment.voteScore}</strong>
+   <FaCaretDown className="voteButton" onClick={this.voteDetermine.bind(this, "downVote")} />
+   </div>
+   <div className="comment-info">
+   <p className="comment-body">{ comment.body }</p>
+   <p>
+   { `submitted ${time} from ${comment.author}` }
+   </p>
+  <div className="modify-buttons">
+  <FaClose className="delete-button" onClick={this.deleteComment.bind(this)} />
+   <EditCommentForm comment={comment} editComment={this.editComment.bind(this)} />
+               </div>
+             </div>
+           </div>
         )
-
-
   }
 }
 

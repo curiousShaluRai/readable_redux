@@ -10,7 +10,9 @@ nav {
   background: white;
    width: 100%;
  }
-
+ .select-sort-label {
+  margin-top: 40px;
+}
 button.add {
   border: none;
    background-color: #555555;
@@ -36,7 +38,7 @@ button.add {
 }
 
 .Posts {
-   width: 75%;
+   width: 100%;
   position: absolute;
   top: 68px;
   left: 0;
@@ -44,9 +46,6 @@ button.add {
 }
 
 @media only screen and (max-width: 767px) {
-  .Posts {
-    width: 100%;
-  }
 
   .overlay {
     position: fixed;
@@ -135,7 +134,8 @@ button.add {
   margin-right: 10px;
 }
 
-.post-info {
+.post-info,
+.comment-info {
   display: inline-block;
   vertical-align: middle;
 }
