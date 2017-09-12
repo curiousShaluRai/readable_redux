@@ -38,12 +38,12 @@ editPost(editedPost){
   this.setState({ post : editedPost});
 }
 
-voteDetermine(e) {
-     const voteType = e.target.getAttribute('data-votes');
+voteDetermine(voteType) {
+
      const postId = this.state.post.id;
      this.props.postVote(postId, voteType)
        }
-voteDetermine = this.voteDetermine.bind(this);
+
 
   render(){
     const post =  this.state.post;
@@ -51,9 +51,9 @@ voteDetermine = this.voteDetermine.bind(this);
     return(
   <div className = "Post" >
   <div className="vote-component">
-      <FaCaretUp className="voteButton" data-votes="upVote" onClick={this.voteDetermine} />
+      <FaCaretUp className="voteButton"  onClick={this.voteDetermine.bind(this,"upVote")} />
         <strong>{post.voteScore}</strong>
-      <FaCaretDown className="voteButton" data-votes="downVote" onClick={this.voteDetermine} />
+      <FaCaretDown className="voteButton"  onClick={this.voteDetermine.bind(this,"downVote")} />
   </div>
     <div className="post-info">
       <Link to={`/${post.category}/${post.id}`} className="title-link">{ post.title }</Link>

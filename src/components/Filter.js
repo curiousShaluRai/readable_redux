@@ -33,8 +33,9 @@ import AddPostForm from './AddPostForm'
     const category = this.props.match.params.category;
     return (
 
-  <div className = "filter">
 
+  <div className={`overlay ${this.props.slideClass}`}>
+   <div className={`filters ${this.props.slideClass}`}>
    <h1> Category</h1>
    <Link to="/">
    <label htmlFor="all">
@@ -93,6 +94,7 @@ import AddPostForm from './AddPostForm'
 
    <AddPostForm  />
    </div>
+</div>
 </div>
 )
 }

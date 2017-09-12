@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { fetchPosts } from '../actions'
+import NavBar from './NavBar'
 import  Posts from './Posts';
 import Filter from './Filter'
 import ShowPost from './ShowPost';
@@ -12,12 +13,17 @@ class App extends Component {
 
   state = {
     posts: [],
-    sortkey:'voteScore'
+    sortkey:'voteScore',
+     slideClass: 'slide-in'
   }
 
 
   componentWillMount = () => {
     this.props.fetchPosts();
+    const width = window.innerWidth;
+     if (width < 768) {
+      this.setState({ slideClass: 'slide-out' });
+    }
   }
 
   componentWillReceiveProps(newVal){
@@ -40,6 +46,11 @@ class App extends Component {
     }
   }
 
+  toggleFilters() {
+     const slideClass = this.state.slideClass === 'slide-in' ? 'slide-out' : 'slide-in';
+    this.setState({ slideClass });
+  }
+
   render() {
   		      return (
               <BrowserRouter>
@@ -47,12 +58,14 @@ class App extends Component {
 
               <Route exact path="/:category?" render={(props) => (
                     <div className="App">
-                     <h1> Readable </h1>
+
+                      <NavBar toggleFilters={this.toggleFilters.bind(this)} />
                      <Posts
                       posts = {this.state.posts}
                      {...props}
                     />
-                      <Filter sortPosts = {this.sortPosts.bind(this)}
+                      <Filter slideClass={this.state.slideClass}
+                      sortPosts = {this.sortPosts.bind(this)}
                       {...props}/>
                     </div>
                   )}
