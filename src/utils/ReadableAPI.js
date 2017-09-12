@@ -87,10 +87,8 @@ export const addPost = (post) =>
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      author: post.author,
-       body: post.body,
-      title: post.title,
-      category: post.category,
+      author: post.author, body: post.body,
+      title: post.title, category: post.category,
       timestamp: Date.now(),
       id: uuidv1()
     })

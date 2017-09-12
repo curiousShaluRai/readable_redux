@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
 import { asyncAddComment } from '../actions'
 import { connect } from 'react-redux'
+
+
  class AddCommentForm extends Component {
-   
+
   state = {
     author: '',
     body: ''
   }
 
-  handleSubmit(e) {
-    e.preventDefault();
+  handleSubmit(events) {
+    events.preventDefault();
 
     const author = this.state.author;
     const body = this.state.body;

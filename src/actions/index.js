@@ -71,6 +71,7 @@ export const asyncAddPost = (author, body, title, category) => dispatch => (
       .addPost(author, body, title, category)
       .then(post => dispatch(addPosts(post)))
 );
+
 export const editPosts = (post) =>({
   type: EDIT_POST,
   post

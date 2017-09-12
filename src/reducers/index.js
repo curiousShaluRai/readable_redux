@@ -35,7 +35,7 @@ function posts(state = [], action){
         ? {...post, deleted: true}
         : post
       )
-  
+
       case ADD_POST:
       return [
         action.post,
@@ -44,7 +44,7 @@ function posts(state = [], action){
 
       case EDIT_POST:
       return state.map( post =>
-       (post.id === action.id)
+       (post.id === action.post.id)
        ? {...action.post }
        : post
       )
