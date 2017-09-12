@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import Modal from 'react-modal';
-import { fetchCategories, asyncEditPost } from '../actions'
+import { asyncEditPost, toggleEditPostModal, changeEditPostForm } from '../actions'
 import { connect } from 'react-redux'
 import { FaEdit, FaClose } from 'react-icons/lib/fa';
 
 
 const customStyles = {
+
   overlay : {
      position          : 'fixed',
     top               : 0,
@@ -26,48 +27,16 @@ const customStyles = {
 
  class EditPostForm extends Component {
 
-  state = {
-      modalIsOpen: false,
-      categories: [],
-      author: '',
-      body: '',
-      title: '',
-      category: ''
-    };
 
-  openModal = this.openModal.bind(this);
-  closeModal = this.closeModal.bind(this);
-
-
-  componentWillMount() {
-    const post = this.props.post;
-    this.setState({
-       author: post.author,
-       body: post.body,
-        title: post.title,
-         category: post.category })
-
-    this.props.fetchCategories()
-  }
-
-  componentWillReceiveProps(newVal) {
-
-    const categories = newVal.categories
-    this.setState({ categories })
-
-  }
+  toggleModal = this.toggleModal.bind(this);
 
   handleSubmit(events) {
     events.preventDefault();
+    const post = this.props.postToEdit;
 
-    const author = this.state.author;
-    const body = this.state.body;
-    const title = this.state.title;
-    const category = this.state.category;
-    const postId = this.props.post.id;
+        this.props.editPost(post)
+                  .then(this.toggleModal());
 
-    this.props.editPost(postId, author, body, title, category)
-    .then(this.closeModal())
   }
 
   handleSubmit = this.handleSubmit.bind(this);
@@ -75,78 +44,83 @@ const customStyles = {
   handleInput(events) {
     const newVal = events.target.value;
     const property = events.target.name;
+    let post = Object.assign({}, this.props.postToEdit);
+       post[property] = newVal;
 
-    let stateObj = Object.assign({}, this.state);
-    stateObj[property] = newVal;
-
-    this.setState(stateObj);
+       this.props.changePostToEdit(post);
   }
 
   handleInput = this.handleInput.bind(this);
 
-  openModal() {
-    this.setState({ modalIsOpen: true });
-  }
+  toggleModal() {
 
+     if (!this.props.modalIsOpen) {
+       const post = this.props.post;
+       const pst = { postId: post.id, body: post.body,
+                   author: post.author, title: post.title,
+                   category: post.category }
+       this.props.changePostToEdit(pst);
+     }
 
+     this.props.toggleModal();
+   }
 
-  closeModal() {
-    this.setState({modalIsOpen: false});
-  }
 
   render() {
+    const post = this.props.postToEdit;
+
     return (
       <div className="modal">
         <FaEdit
         className="edit-button"
-        onClick={this.openModal} />
+        onClick={this.toggleModal} />
         <Modal
-          isOpen={this.state.modalIsOpen}
-          onRequestClose={this.closeModal}
+          isOpen={this.props.modalIsOpen}
+          onRequestClose={this.toggleModal}
           style={customStyles}
-          contentLabel="Example Modal"
+          contentLabel="Edit Post"
         >
 
         <div>
-       <h2 className="modal-title" ref={subtitle => this.subtitle = subtitle}>Edit Post</h2>
-       <FaClose className="modal-close" onClick={this.closeModal} />
+       <h2 className="modal-title" >Edit Post</h2>
+       <FaClose className="modal-close" onClick={this.toggleModal} />
      </div>
      <form onSubmit={this.handleSubmit}>
-       <label for="author">
+       <label htmlFor="author">
          <p>Author</p>
          <input type="text"
                placeholder="post author"
                 id="author"
                 name="author"
-                 value={this.state.author}
+                 value={post.author}
                 onChange={this.handleInput} />
        </label>
-       <label for="title">
+       <label htmlFor="title">
          <p>Title</p>
          <input type="text"
                placeholder="post title"
                 id="title"
                 name="title"
-                 value={this.state.title}
+                 value={post.title}
                 onChange={this.handleInput} />
        </label>
-       <label for="body">
+       <label htmlFor="body">
          <p>Body</p>
          <textarea
           placeholder="post body"
            name="body"
            id="body"
-          value={this.state.body}
+          value={post.body}
           onChange={this.handleInput} />
        </label>
        <label for="category">
          <p>Category</p>
          <select name="category"
                  id="category"
-                 value={this.state.category}
+                 value={post.category}
                  onChange={this.handleInput} >
            {
-             this.state.categories.map((cat, key) =>
+             this.props.categories.map((cat, key) =>
                <option key = {key} value={cat.name}>{cat.name}</option>
              )
            }
@@ -161,15 +135,17 @@ const customStyles = {
 }
 function mapStateToProps(state){
   return{
-    categories: state.categories
+ postToEdit: state.postToEdit,
+    categories: state.categories,
+    modalIsOpen: state.editPostModalIsOpen
   }
 }
 
 function mapDispatchToProps(dispatch){
   return{
-    fetchCategories: () => dispatch(fetchCategories()),
-    editPost: (postId, author, body, title, category) => dispatch(
-      asyncEditPost(postId, author, body, title, category))
+      editPost: (post) => dispatch(asyncEditPost(post)),
+      toggleModal: () => dispatch(toggleEditPostModal()),
+    changePostToEdit: (post) => dispatch(changeEditPostForm(post))
   }
 }
 

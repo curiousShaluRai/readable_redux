@@ -8,18 +8,7 @@ import { connect } from 'react-redux'
 
  class Comment extends Component {
 
-  state = {
-    comment: {}
-  }
-///  get the comments
-componentWillMount(){
-  this.setState({comment: this.state.comment})
-}
 
-// get comments , when props changed
-componentWillReceiveProps(newVal){
-  this.setState({comment: newVal.comment})
-}
 
 // vote for comments
 voteDetermine(voteType){
@@ -29,18 +18,15 @@ voteDetermine(voteType){
 
 
 deleteComment(){
-  const commentId = this.state.comment.id;
+  const commentId = this.props.comment.id;
    this.props.deleteComment(commentId)
 
 }
 
-editComment(editedComment){
-  this.setState({comment:editedComment});
-}
-
 
   render() {
-    const comment = this.state.comment;
+    const comment = this.props.comment;
+
 const time = moment(`${comment.timestamp}`, "x").fromNow();
       return (
 
@@ -57,7 +43,7 @@ const time = moment(`${comment.timestamp}`, "x").fromNow();
    </p>
   <div className="modify-buttons">
   <FaClose className="delete-button" onClick={this.deleteComment.bind(this)} />
-   <EditCommentForm comment={comment} editComment={this.editComment.bind(this)} />
+   <EditCommentForm comment={comment}  />
                </div>
              </div>
            </div>

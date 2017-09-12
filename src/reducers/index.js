@@ -12,6 +12,7 @@ import {
   CHANGE_ADD_POST_FORM,
    CHANGE_ADD_COMMENT_FORM,
    CHANGE_EDIT_COMMENT_FORM,
+   CHANGE_EDIT_POST_FORM,
   CHANGE_POST_SORT_KEY,
    CHANGE_COMMENT_SORT_KEY,
   SET_FILTER_VISIBILITY,
@@ -20,6 +21,7 @@ import {
    EDIT_POST,
    EDIT_COMMENT,
     TOGGLE_ADD_POST_MODAL,
+     TOGGLE_EDIT_POST_MODAL,
      TOGGLE_EDIT_COMMENT_MODAL,
     UPDATE_POST_COMMENTS_NUM_MAP
   } from '../actions';
@@ -235,6 +237,27 @@ function commentToEdit(state = { id: '', author: '', body: '' }, action) {
   }
 }
 
+
+function postToEdit(state = initialPostState, action) {
+  switch (action.type) {
+    case CHANGE_EDIT_POST_FORM :
+      return {
+        ...action.post
+      }
+    default :
+      return state
+  }
+}
+
+function editPostModalIsOpen(state = false, action) {
+  switch (action.type) {
+    case TOGGLE_EDIT_POST_MODAL :
+      return !state
+    default :
+      return state
+  }
+}
+
 // An object whose values correspond to different reducing functions that need to be combined into one.
 export default combineReducers({
   posts,
@@ -242,8 +265,10 @@ export default combineReducers({
   categories,
   post,
   postToAdd,
+  postToEdit,
   commentToAdd,
   addPostModalIsOpen,
+   editPostModalIsOpen,
   postSortKey,
   commentSortKey,
   commentToEdit,
