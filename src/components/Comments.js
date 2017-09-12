@@ -1,34 +1,23 @@
 import React, { Component } from 'react';
  import Comment from './Comment';
+ import { connect } from 'react-redux';
 
 
 
  class Comments extends Component {
-   state = {
-     comments: []
-   }
-   componentWillMount(){
-     this.setState({comments: this.props.comments});
-   }
-
-   componentWillReceiveProps(newVal){
-     this.setState({comments: newVal.comments})
-   }
-
-updateComment(deletedcomment){
-  const comments = this.state.comments.filter((c) => c.id !== deletedcomment.id);
-  this.setState({comments})
-}
-
 
    render() {
+
+    const sortByKey = (sortKey) => (a, b) => a[sortKey] < b[sortKey];
+
     return (
       <div className="Comments">
         {
-          this.props.comments.map((comt , key) =>
+          this.props.comments.sort(sortByKey(this.props.commentSortKey))
+          .map((comt , key) =>
             <Comment key={key}
             comment= {comt}
-            updateComment={this.updateComment.bind(this)}
+
              />
           )
         }
@@ -37,4 +26,12 @@ updateComment(deletedcomment){
   }
 }
 
-export default Comments;
+function mapStateToProps (state) {
+  return {
+    commentSortKey: state.commentSortKey
+  }
+}
+
+export default connect(
+  mapStateToProps
+)(Comments);

@@ -1,62 +1,81 @@
 import React, { Component } from 'react';
-import { asyncAddComment } from '../actions'
+import { asyncAddComment, changeAddCommentForm } from '../actions'
 import { connect } from 'react-redux'
 
 
  class AddCommentForm extends Component {
 
-  state = {
-    author: '',
-    body: ''
-  }
-
   handleSubmit(events) {
     events.preventDefault();
 
-    const author = this.state.author;
-    const body = this.state.body;
+    const comment = this.props.commentToAdd;
     const parentId = this.props.parentId;
+    this.props.addNewComment(parentId, comment);
 
-     this.props.addNewComment(parentId, body, author);
+    const resetComment = { author: '', body: '' };
+    this.props.changeCommentToAdd(resetComment);
   }
+  handleSubmit = this.handleSubmit.bind(this);
 
   handleInput(events) {
     const newVal = events.target.value;
     const property = events.target.name;
 // Object.assign() copies the values (of all enumerable own properties) from one or more source objects to a target object
-    let stateObj = Object.assign({}, this.state);
-    stateObj[property] = newVal;
-
-    this.setState(stateObj);
+    let comment = Object.assign({},  this.props.commentToAdd);
+      comment[property] = newVal;
+    this.props.changeCommentToAdd(comment);
   }
 
+  handleInput = this.handleInput.bind(this);
+
   render() {
+    const comment = this.props.commentToAdd;
     return (
-      <form onSubmit={this.handleSubmit.bind(this)}>
-        <input type="text" placeholder="comment author" name="author"
-               value={this.state.author} onChange={this.handleInput.bind(this)} />
-        <input type="text" placeholder="add comment" name="body"
-               value={this.state.body} onChange={this.handleInput.bind(this)} />
-        <input type="submit" />
-      </form>
+      <div className="add-comment-form-wrapper">
+         <div className="add-comment-form">
+           <h3>Add Comment</h3>
+           <form onSubmit={this.handleSubmit}>
+             <label htmlFor="add-author">
+               <p>Author</p>
+               <input type="text"
+               placeholder="comment author"
+                name="author"
+                 id="add-author"
+                value={comment.author}
+                onChange={this.handleInput} />
+             </label>
+             <label htmlFor="add-body">
+               <p>Body</p>
+               <input type="text"
+               placeholder="add comment"
+                name="body"
+              id="add-body"
+              value={comment.body}
+              onChange={this.handleInput} />
+             </label>
+             <input type="submit" />
+           </form>
+         </div>
+       </div>
     )
   }
 }
-
-function mapStateToProps(state){
+function mapStateToProps (state) {
   return {
-    comments: state.comments
+    comments: state.comments,
+    commentToAdd: state.commentToAdd
   }
 }
 
-function mapDispatchToProps(dispatch){
-  return{
-    addNewComment: (parentId, body, author) => dispatch(
-      asyncAddComment(parentId, body, author))
+function mapDispatchToProps(dispatch) {
+  return {
+    addNewComment: (parentId, comment) =>
+      dispatch(asyncAddComment(parentId, comment)),
+    changeCommentToAdd: (comment) => dispatch(changeAddCommentForm(comment))
   }
 }
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(AddCommentForm)
+)(AddCommentForm);
