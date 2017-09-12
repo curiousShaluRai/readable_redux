@@ -69,6 +69,11 @@ voteDetermine(voteType) {
    />
  </div>
 </div>
+{ this.props.detail &&
+               <div className="post-body">
+                { post.body }
+              </div>
+            }
 </div>
 
     )

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Modal from 'react-modal';
 import  { asyncEditComment } from '../actions'
+import { FaEdit, FaClose } from 'react-icons/lib/fa';
 import { connect } from 'react-redux';
 
 
@@ -32,7 +33,6 @@ class EditCommentForm extends Component {
     }
 
      openModal = this.openModal.bind(this);
-     afterOpenModal = this.afterOpenModal.bind(this);
      closeModal = this.closeModal.bind(this);
 
 
@@ -70,10 +70,7 @@ class EditCommentForm extends Component {
     this.setState({ modalIsOpen: true });
   }
 
-  afterOpenModal() {
-    // references are now sync'd and can be accessed.
-    this.subtitle.style.color = '#003366';
-  }
+
 
   closeModal() {
     this.setState({ modalIsOpen: false });
@@ -82,28 +79,40 @@ class EditCommentForm extends Component {
   render() {
     return (
       <div className="modal">
-        <button className="edit" onClick={this.openModal}>Edit Comment</button>
+    <FaEdit className="edit-button" onClick={this.openModal} />
         <Modal
           isOpen={this.state.modalIsOpen}
-          onAfterOpen={this.afterOpenModal}
-          onRequestClose={this.closeModal}
+         onRequestClose={this.closeModal}
           style={customStyles}
           contentLabel="Example Modal"
         >
 
-          <h2 ref={subtitle => this.subtitle = subtitle}>Edit Comment</h2>
-          <button onClick={this.closeModal}>CLOSE</button>
-          <form onSubmit={this.handleSubmit}>
-            <input type="text" placeholder="comment author"
-                   name="author" value={this.state.author}
-                   onChange={this.handleInput} />
-            <textarea placeholder="comment body" name="body"
-                      value={this.state.body}
-                      onChange={this.handleInput} />
-            <input type="submit" />
-          </form>
-        </Modal>
-      </div>
+    <div>
+    <h2 className="modal-title" ref={subtitle => this.subtitle = subtitle}>Edit Comment</h2>
+    <FaClose className="modal-close" onClick={this.closeModal} />
+    </div>
+    <form onSubmit={this.handleSubmit}>
+    <label htmlFor="author">
+    <p>Author</p>
+    <input type="text"
+     placeholder="comment author"
+     id="author"
+     name="author"
+     value={this.state.author}
+     onChange={this.handleInput} />
+    </label>
+    <label htmlFor="body">
+    <p>Body</p>
+    <textarea placeholder="comment body"
+            name="body"
+            id="body"
+            value={this.state.body}
+            onChange={this.handleInput} />
+    </label>
+    <input type="submit" />
+    </form>
+    </Modal>
+    </div>
     );
   }
 }
