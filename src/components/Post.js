@@ -32,6 +32,8 @@ deletePost(){
 
 }
 
+deletePost = this.deletePost.bind(this);
+
 
 
 voteDetermine(voteType) {
@@ -44,6 +46,7 @@ voteDetermine(voteType) {
   render(){
     const postId =  this.props.postId;
     const posts = this.props.posts.filter(p => p.id === postId && p.deleted !== true);
+    console.log(posts);
     const post = posts.length > 0 ? posts[0] : {};
      const time = moment(`${post.timestamp}`, "x").fromNow();
       const numberOfComments = this.props.postCommentsNumMap[postId];
@@ -61,7 +64,7 @@ voteDetermine(voteType) {
   <Link className="category-link" to={`/${post.category}`}>{ post.category }</Link>
                 </p>
     <div className="modify-buttons">
-    <FaClose className="delete-button" onClick={this.deletePost.bind(this)} />
+    <FaClose className="delete-button" onClick={this.deletePost} />
 
     <EditPostForm
     post = { post}

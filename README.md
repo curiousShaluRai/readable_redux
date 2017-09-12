@@ -12,7 +12,7 @@
 
     npm install uuid
 
-[for more details](https://www.npmjs.com/package/uuid)
+ [for more details](https://www.npmjs.com/package/uuid)
 
 ### react-router-dom
 
@@ -20,7 +20,7 @@
 
 [for more details](https://www.npmjs.com/package/react-router-dom)
 
-### react- modal and loading
+### react-modal and loading
 
     npm install react-loading react-modal
 
@@ -45,3 +45,14 @@
    npm install --save redux-thunk
 
    [for more detail](https://www.npmjs.com/package/redux-thunk)
+
+### react-icons
+
+    npm install react-icons --save
+
+    [for more details](https://www.npmjs.com/package/react-icons)
+
+### [Actions](http://redux.js.org/docs/basics/Actions.html)
+### [Reducers](http://redux.js.org/docs/basics/Reducers.html)
+### [store](http://redux.js.org/docs/basics/Store.html)
+### [Async AsyncActions](http://redux.js.org/docs/advanced/AsyncActions.html)  
