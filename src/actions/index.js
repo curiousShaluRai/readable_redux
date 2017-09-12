@@ -7,7 +7,7 @@ import * as ReadableAPI from '../utils/ReadableAPI'
 
 export const RECEIVE_POSTS = 'RECEIVE_POSTS';
 export const RECEIVE_CATEGORIES = 'RECEIVE_CATEGORIES';
-//export const RECEIVE_POST = 'RECEIVE_POST';
+export const RECEIVE_POST = 'RECEIVE_POST';
 export const RECEIVE_POST_COMMENTS = 'RECEIVE_POST_COMMENTS';
 export const POST_VOTE = 'POST_VOTE';
 export const COMMENT_VOTE = 'COMMENT_VOTE';
@@ -17,6 +17,24 @@ export const ADD_POST = 'ADD_POST';
 export const ADD_COMMENT = 'ADD_COMMENT';
 export const EDIT_POST = ' EDIT_POST';
 export const EDIT_COMMENT = 'EDIT_COMMENT';
+
+export const CHANGE_ADD_COMMENT_FORM = "CHANGE_ADD_COMMENT_FORM";
+export const CHANGE_EDIT_COMMENT_FORM = "CHANGE_EDIT_COMMENT_FORM";
+export const CHANGE_ADD_POST_FORM = "CHANGE_ADD_POST_FORM";
+export const CHANGE_EDIT_POST_FORM = "CHANGE_EDIT_POST_FORM";
+
+export const TOGGLE_EDIT_COMMENT_MODAL = "TOGGLE_EDIT_COMMENT_MODAL";
+export const TOGGLE_EDIT_POST_MODAL = "TOGGLE_EDIT_POST_MODAL";
+export const TOGGLE_ADD_POST_MODAL = "TOGGLE_ADD_POST_MODAL";
+
+export const CHANGE_POST_SORT_KEY = "CHANGE_POST_SORT_KEY";
+export const CHANGE_COMMENT_SORT_KEY = "CHANGE_COMMENT_SORT_KEY";
+
+export const SET_FILTER_VISIBILITY = "SET_FILTER_VISIBILITY";
+
+export const RECEIVE_POST_COMMENTS_NUM = "RECEIVE_POST_COMMENTS_NUM";
+export const UPDATE_POST_COMMENTS_NUM_MAP = "UPDATE_POST_COMMENTS_NUM_MAP";
+
 
 
 // create actions for post
@@ -66,9 +84,9 @@ export const addPosts = (post) =>({
 }
 )
 
-export const asyncAddPost = (author, body, title, category) => dispatch => (
+export const asyncAddPost = (post) => dispatch => (
   ReadableAPI
-      .addPost(author, body, title, category)
+      .addPost(post)
       .then(post => dispatch(addPosts(post)))
 );
 
@@ -77,21 +95,114 @@ export const editPosts = (post) =>({
   post
 })
 
-export const editComment = (comment) => ({
-  type: EDIT_COMMENT,
-  comment
-  })
-
-
-  export const asyncEditPost = (postId, author, body, title, category) => dispatch => (
+  export const asyncEditPost = (post) => dispatch => (
     ReadableAPI
-        .editPost(postId, author, body, title, category)
+        .editPost(post)
         .then(post => dispatch(editPosts(post)))
   );
 
-  export const asyncEditComment = (commentId, body, author) => dispatch => (
+  export const receivePostCommentsNum = num => ({
+    type: RECEIVE_POST_COMMENTS_NUM,
+    num
+})
+
+export const getPostCommentsNum = (id) => dispatch => (
+  ReadableAPI
+      .getPostCommentsNum(id)
+      .then(num => dispatch(receivePostCommentsNum(num)))
+);
+
+export const receivePost = post => ({
+  type: RECEIVE_POST,
+  post
+});
+
+export const fetchPost = (id) => dispatch => (
+  ReadableAPI
+      .getPost(id)
+      .then(post => dispatch(receivePost(post)))
+);
+
+export function changeAddCommentForm(comment) {
+  return {
+    type: CHANGE_ADD_COMMENT_FORM,
+    comment
+  }
+};
+
+export function changeAddPostForm(post) {
+  return {
+    type: CHANGE_ADD_POST_FORM,
+    post
+  }
+};
+
+export function changeEditCommentForm(comment) {
+  return {
+    type: CHANGE_EDIT_COMMENT_FORM,
+    comment
+  }
+};
+
+export function changeEditPostForm(post) {
+  return {
+    type: CHANGE_EDIT_POST_FORM,
+    post
+  }
+};
+
+export function toggleAddPostModal() {
+  return {
+     type: TOGGLE_ADD_POST_MODAL
+   } };
+export function toggleEditPostModal() {
+  return {
+     type: TOGGLE_EDIT_POST_MODAL
+    } };
+export function toggleEditCommentModal() {
+  return {
+    type: TOGGLE_EDIT_COMMENT_MODAL
+   } };
+
+export function changePostSortKey(key) {
+  return {
+    type: CHANGE_POST_SORT_KEY,
+    key
+  }
+}
+
+export function changeCommentSortKey(key) {
+  return {
+    type: CHANGE_COMMENT_SORT_KEY,
+    key
+  }
+}
+
+export function setFilterVisibility(visibility) {
+  return {
+    type: SET_FILTER_VISIBILITY,
+    visibility
+  }
+}
+
+export function updatePostCommentsNumMap(postId, numberOfComments) {
+  return {
+    type: UPDATE_POST_COMMENTS_NUM_MAP,
+    postId,
+    numberOfComments
+  }
+}
+
+
+/// action for comments
+  export const editComment = (comment) => ({
+    type: EDIT_COMMENT,
+    comment
+    })
+
+  export const asyncEditComment = (commentId, comment) => dispatch => (
     ReadableAPI
-        .editComment(commentId, body, author)
+        .editComment(commentId, comment)
         .then(comment => dispatch(editComment(comment)))
   );
 
@@ -101,10 +212,10 @@ export const addComments = (comment) =>({
   comment
 })
 
-export const asyncAddComment = (parentId, body, author) => dispatch => (
+export const asyncAddComment = (parentId, comment) => dispatch => (
   ReadableAPI
-      .addComment(parentId, body, author)
-      .then(comment => dispatch(addComments(comment)))
+      .addComment(parentId, comment)
+      .then(comments => dispatch(addComments(comments)))
 );
 
 export const deleteComment = (id) => ({
@@ -147,6 +258,7 @@ export const fetchPostComments = (id) =>  dispatch => (
 );
 
 // get all categories
+
 export const receiveCategories = categories => ({
   type: RECEIVE_CATEGORIES,
   categories

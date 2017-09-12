@@ -1,38 +1,21 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { fetchCategories } from '../actions';
+import { changePostSortKey } from '../actions';
 import { connect } from 'react-redux';
 import AddPostForm from './AddPostForm'
 
 
  class Filter extends Component{
-  state = {
-    categories: [],
-    category:'',
-    sortKey: 'voteScore'
-  }
-
-  componentWillMount = () => {
-  this.props.fetchCategories();
-
-  }
-
-  componentWillReceiveProps = (newVal) => {
-
-  const categories = newVal.categories;
-    this.setState({  categories });
-  }
 
   handleSortChange = (events) => {
     const sortKey = events.target.value;
-    this.setState({sortKey});
-    this.props.sortPosts(sortKey);
+   this.props.changePostSortKey(sortKey)
   }
 
   render(){
     const category = this.props.match.params.category;
+    const sortKey = this.props.postSortKey  // reducer
     return (
-
 
   <div className={`overlay ${this.props.slideClass}`}>
    <div className={`filters ${this.props.slideClass}`}>
@@ -51,7 +34,7 @@ import AddPostForm from './AddPostForm'
    </Link>
 
    {
-     this.state.categories.map((cat, key) => {
+     this.props.categories.map((cat, key) => {
        return(
 
      <Link  key= {key} to= {`/${cat.name}`}>
@@ -75,13 +58,13 @@ import AddPostForm from './AddPostForm'
   <label htmlFor="select-sort" className="select-sort-label">
       <h3>Sort Type</h3>
       <select
-        value={this.state.sortKey}
+        value={sortKey}
         onChange={this.handleSortChange.bind(this)}
         id="select-sort" >
-      <option value="voteScore" selected={this.state.sortKey === 'voteScore'} >
+      <option value="voteScore" selected={sortKey === 'voteScore'} >
       Sort by Votes
       </option>
-      <option value="timestamp" selected={this.state.sortKey === 'timestamp'}>
+      <option value="timestamp" selected={sortKey === 'timestamp'}>
       Sort by Time
       </option>
       </select>
@@ -99,13 +82,15 @@ import AddPostForm from './AddPostForm'
 
 function mapStateToProps(state){
   return{
-    categories: state.categories
+    categories: state.categories,
+    postSortKey:state.postSortKey
   }
 }
 
 function mapDispatchToProps(dispatch){
   return{
-    fetchCategories: () => dispatch(fetchCategories())
+
+      changePostSortKey: (key) => dispatch(changePostSortKey(key))
   }
 }
 

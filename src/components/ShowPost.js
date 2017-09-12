@@ -3,7 +3,6 @@ import NavBar from './NavBar'
 import Post from './Post';
 import Comments from './Comments';
 import AddCommentForm from './AddCommentForm'
-import { Link } from 'react-router-dom';
 import { fetchPosts, fetchPostComments } from '../actions'
 import { connect } from 'react-redux'
 

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Modal from 'react-modal';
-import { fetchCategories, asyncAddPost} from '../actions'
+import {  asyncAddPost, toggleAddPostModal, changeAddPostForm} from '../actions'
 import { FaClose } from 'react-icons/lib/fa';
 import { connect } from 'react-redux'
 
@@ -27,41 +27,23 @@ const customStyles = {
  class AddPostForm extends Component {
 
 
-    state = {
-      modalIsOpen: false,
-      categories: [],
-      author : '',
-      body : '',
-      title: '',
-      category: ''
-    };
-
-  openModal = this.openModal.bind(this);
-
-   closeModal = this.closeModal.bind(this);
-
-  componentWillMount() {
-  this.props.fetchCategories();
-  }
-
-  componentWillReceiveProps(newVal){
-    const categories = newVal.categories;
-    this.setState({categories});
-
-  }
+   toggleModal = this.toggleModal.bind(this);
 
   handleSubmit(events) {
     events.preventDefault();
+    const post = this.props.postToAdd;
+    this.props.addPost(post).then(this.toggleModal());
 
-     const author = this.state.author;
-      const body = this.state.body;
-      const title = this.state.title;
-      const category = this.state.category;
-
-
-     this.props.addNewPost(author, body, title, category)
-      .then(this.closeModal())
+    const initialPostState = {
+      author: '',
+      body: '',
+      title: '',
+      category: 'react'
     }
+    this.props.changePostToAdd(initialPostState);
+  }
+
+
 
     handleSubmit = this.handleSubmit.bind(this);
 
@@ -69,56 +51,51 @@ const customStyles = {
       const newVal = events.target.value;
       const property = events.target.name;
 
-      let stateObj = Object.assign({}, this.state);
-      stateObj[property] = newVal;
+      let post = Object.assign({}, this.props.postToAdd);
+      post[property] = newVal;
 
-      this.setState(stateObj);
+      this.props.changePostToAdd(post);
     }
     handleInput = this.handleInput.bind(this);
 
-  openModal() {
-    this.setState({modalIsOpen: true});
-  }
-
-
-
-  closeModal() {
-    this.setState({modalIsOpen: false});
+  toggleModal() {
+    this.props.toggleModal();
   }
 
 
 render() {
+  const post = this.props.postToAdd;
     return (
       <div className="modal">
-        <button className="add" onClick={this.openModal}>Add Post</button>
+        <button className="add" onClick={this.toggleModal}>Add Post</button>
         <Modal
-          isOpen={this.state.modalIsOpen}
-          onRequestClose={this.closeModal}
+          isOpen={this.props.modalIsOpen}
+          onRequestClose={this.toggleModal}
           style={customStyles}
           contentLabel="Add  Post"
         >
         <div>
-          <h2 className="modal-title" ref={subtitle => this.subtitle = subtitle}>Add a New Post</h2>
-              <FaClose className="modal-close" onClick={this.closeModal} />
+          <h2 className="modal-title" >Add a New Post</h2>
+              <FaClose className="modal-close" onClick={this.toggleModal} />
                 </div>
 
         <form onSubmit={this.handleSubmit}>
-          <label for="author">
+          <label htmlFor="author">
             <p>Author</p>
             <input type="text"
                    placeholder="post author"
                    id="author"
                    name="author"
-                   value={this.state.author}
+                   value={post.author}
                    onChange={this.handleInput} />
           </label>
-          <label for="title">
+          <label htmlFor="title">
             <p>Title</p>
             <input type="text"
                    placeholder="post title"
                    id="title"
                    name="title"
-                   value={this.state.title}
+                   value={post.title}
                    onChange={this.handleInput} />
           </label>
           <label for="body">
@@ -126,17 +103,17 @@ render() {
           <textarea placeholder="post body"
                     name="body"
                     id="body"
-                    value={this.state.body}
+                    value={post.body}
                     onChange={this.handleInput} />
           </label>
-          <label for="category">
+          <label htmlFor="category">
           <p>Category</p>
             <select name="category"
              id="category"
-             value={this.state.category}
-            onChange={this.handleInput.bind(this)} >
+             value={post.category}
+            onChange={this.handleInput} >
             {
-              this.state.categories.map((cat,key) =>
+              this.props.categories.map((cat,key) =>
                               <option key= { key} value={cat.name}>{cat.name}</option>
                             )
                           }
@@ -152,15 +129,17 @@ render() {
 
  function mapStateToProps(state){
    return{
-     categories: state.categories
+     categories: state.categories,
+     modalIsOpen: state.addPostModalIsOpen,
+    postToAdd: state.postToAdd
    }
  }
 
  function mapaDispatchToProps(dispatch){
    return {
-     fetchCategories: () => dispatch(fetchCategories()),
-     addNewPost: (author, body, title, category) => dispatch(
-       asyncAddPost(author,body,title,category))
+       addPost: (post) => dispatch(asyncAddPost(post)),
+      toggleModal: () => dispatch(toggleAddPostModal()),
+    changePostToAdd: (post) => dispatch(changeAddPostForm(post))
    }
  }
  export default connect(

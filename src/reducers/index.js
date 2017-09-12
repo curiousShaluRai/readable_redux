@@ -3,14 +3,21 @@ import {
    RECEIVE_POSTS,
    RECEIVE_CATEGORIES,
    RECEIVE_POST_COMMENTS,
+   RECEIVE_POST,
    POST_VOTE,
    COMMENT_VOTE,
    DELETE_POST,
    DELETE_COMMENT,
    ADD_POST,
+  CHANGE_ADD_POST_FORM,
+  CHANGE_POST_SORT_KEY,
+  SET_FILTER_VISIBILITY,
+   RECEIVE_POST_COMMENTS_NUM,
    ADD_COMMENT,
    EDIT_POST,
-   EDIT_COMMENT
+   EDIT_COMMENT,
+    TOGGLE_ADD_POST_MODAL,
+    UPDATE_POST_COMMENTS_NUM_MAP
   } from '../actions';
 
 function posts(state = [], action){
@@ -109,9 +116,91 @@ function categories(state = [], action){
   }
 }
 
+function post(state = {}, action) {
+  switch (action.type) {
+    case RECEIVE_POST :
+      return {
+        ...action.post
+      }
+    default :
+      return state
+  }
+}
+
+const initialPostState = {
+  author: '', body: '',
+  title: '', category: ''
+}
+
+function postToAdd(state = initialPostState, action) {
+  switch (action.type) {
+    case CHANGE_ADD_POST_FORM :
+      return {
+        ...action.post
+      }
+    default :
+      return state
+  }
+}
+
+function addPostModalIsOpen(state = false, action) {
+  switch (action.type) {
+    case TOGGLE_ADD_POST_MODAL :
+      return !state
+    default :
+      return state
+  }
+}
+
+function postSortKey(state = 'voteScore', action) {
+  switch (action.type) {
+    case CHANGE_POST_SORT_KEY :
+      return action.key
+    default :
+      return state
+  }
+}
+
+function filtersSlideClass(state = 'slide-in', action) {
+  switch (action.type) {
+    case SET_FILTER_VISIBILITY :
+      return action.visibility
+    default :
+      return state
+  }
+}
+
+function postCommentsNum(state = 0, action) {
+  switch (action.type) {
+    case RECEIVE_POST_COMMENTS_NUM :
+      return action.num
+    default :
+      return state
+  }
+}
+
+function postCommentsNumMap(state = {}, action) {
+  switch (action.type) {
+    case UPDATE_POST_COMMENTS_NUM_MAP :
+      return {
+        ...state,
+        [action.postId]: action.numberOfComments
+      }
+    default :
+      return state
+  }
+}
+
 // An object whose values correspond to different reducing functions that need to be combined into one.
 export default combineReducers({
   posts,
   comments,
-  categories
+  categories,
+  post,
+  postToAdd,
+  addPostModalIsOpen,
+  postSortKey,
+  postCommentsNum,
+  postCommentsNumMap,
+  filtersSlideClass
 })
