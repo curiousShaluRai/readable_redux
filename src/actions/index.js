@@ -74,9 +74,8 @@ export const deletePost = (id) => ({
 export const asyncDeletePost = (id) => dispatch => (
   ReadableAPI
   .deletePost(id)
-  .then( post => dispatch(deletePost(post.id)))
+  .then(dispatch(deletePost(id)))
 )
-
 // add new post
 export const addPosts = (post) =>({
   type:ADD_POST,

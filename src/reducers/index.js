@@ -41,7 +41,6 @@ function posts(state = [], action){
     : post
   )
 
-
   case DELETE_POST :
     return state.map(post =>
       (post.id === action.id)
@@ -85,6 +84,7 @@ function comments( state = [], action){
        ? {...comment, voteScore: action.voteScore}
        :comment
       )
+
       case DELETE_COMMENT:
       return state.filter(comment => (comment.id !== action.id))
 
@@ -134,8 +134,10 @@ function post(state = {}, action) {
 }
 
 const initialPostState = {
-  author: '', body: '',
-  title: '', category: ''
+  author: '',
+   body: '',
+  title: '',
+  category: ''
 }
 
 function postToAdd(state = initialPostState, action) {
