@@ -10,7 +10,7 @@ import { connect } from 'react-redux'
  class ShowPost extends Component {
 
 
-  componentWillMount = () => {
+  componentDidMount(){
     const postId = this.props.match.params.postId;
     this.props.fetchPostComments(postId);
     }
@@ -25,7 +25,8 @@ import { connect } from 'react-redux'
     const postId = this.props.match.params.postId;
      const comments = this.props.comments;
      const sortKey = this.props.commentsSortKey;
-
+     const activePosts = this.props.posts.filter(p => p.id === postId && p.deleted !== true);
+     if (activePosts.length > 0) {
     return (
       <div>
         <NavBar detail={true} />
@@ -56,8 +57,17 @@ import { connect } from 'react-redux'
         </div>
       </div>
     )
-
   }
+    else {
+      return (
+        <div>
+          <NavBar detail={true} />
+          <div className="page-not-found">No Post Found</div>
+        </div>
+      )
+    }
+
+}
 }
 
 function mapStateToProps(state){
@@ -71,7 +81,7 @@ function mapStateToProps(state){
 
 function mapDispatchToProps(dispatch){
   return{
-    
+
     fetchPostComments: (id) => dispatch(fetchPostComments(id)),
      changeCommentSortKey: (key) => dispatch(changeCommentSortKey(key))
   }

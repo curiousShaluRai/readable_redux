@@ -10,20 +10,13 @@ import moment from 'moment';
 
 class Post extends Component{
 
-  componentWillMount = () => {
+  componentDidMount()  {
       const postId = this.props.postId;
       this.props.getPostCommentsNum(postId).then(function(num) {
         this.props.updatePostCommentsNumMap(postId, num.num)
       }.bind(this));
     }
 
-//The data could have changed between the initial render and the two subsequent updates ...
-// React has no way of knowing that the data didn’t change.
-//Therefore, React needs to call componentWillReceiveProps, because the component needs to be notified of the new props
-
-// componentWillReceiveProps(newVal){
-//   this.setState({post: newVal.post})
-// }
 
 deletePost(){
 
@@ -46,7 +39,6 @@ voteDetermine(voteType) {
   render(){
     const postId =  this.props.postId;
     const posts = this.props.posts.filter(p => p.id === postId && p.deleted !== true);
-    console.log(posts);
     const post = posts.length > 0 ? posts[0] : {};
      const time = moment(`${post.timestamp}`, "x").fromNow();
       const numberOfComments = this.props.postCommentsNumMap[postId];

@@ -103,7 +103,10 @@ export const deletePost = (id) =>
       'Content-Type': 'application/json'
     }
   }).then(res => res.json())
-    .then(data => data)
+  .then((data) => data)
+.catch((error) => {
+console.log("unexpected value in json")
+});
 
 export const deleteComment = (id) =>
   fetch(`${api}/comments/${id}`, {
