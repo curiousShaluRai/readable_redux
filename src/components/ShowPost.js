@@ -5,7 +5,7 @@ import Comments from './Comments';
 import AddCommentForm from './AddCommentForm'
 import {  fetchPostComments, changeCommentSortKey } from '../actions'
 import { connect } from 'react-redux'
-
+import { Redirect } from 'react-router'
 
  class ShowPost extends Component {
 
@@ -60,10 +60,8 @@ import { connect } from 'react-redux'
   }
     else {
       return (
-        <div>
-          <NavBar detail={true} />
-          <div className="page-not-found">No Post Found</div>
-        </div>
+      <Redirect to="/"/>
+
       )
     }
 
