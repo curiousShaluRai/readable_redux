@@ -6,6 +6,12 @@
     cd readable
     npm start or yarn start
 
+## Clone or Download App
+
+    git clone `git@github.com:shalurai/readable_redux.git`
+    npm install
+    npm start
+
 ## Installed Packages
 
 ### uuid
