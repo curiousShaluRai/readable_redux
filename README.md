@@ -8,9 +8,9 @@
 
 ## Clone or Download App
 
-    git clone git@github.com:curiousShaluRa/readable_redux.git
-    npm install
-    npm start
+    `git clone https://github.com/curiousShaluRai/readable_redux.git`
+    `npm install` or `yarn install`
+    `npm start` or `yarn start`
 
 ## Installed Packages
 
