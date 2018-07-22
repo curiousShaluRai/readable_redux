@@ -8,7 +8,7 @@
 
 ## Clone or Download App
 
-    git clone `git@github.com:shalurai/readable_redux.git`
+    git clone git@github.com:curiousShaluRa/readable_redux.git
     npm install
     npm start
 
